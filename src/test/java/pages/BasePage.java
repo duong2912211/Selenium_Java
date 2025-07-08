@@ -85,8 +85,4 @@ public abstract class BasePage {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
     }
-
-    public static String getDynamicXpath(String xpath, String value) {
-        return String.format(xpath, value);
-    }
 }
