@@ -14,10 +14,14 @@ Feature: Home Page Test
   @test0102
   Scenario Outline: 01.02 User can navigate to other page by click category menu
     Given User access to Homepage
-    When User click on <categoryName> menu
-    Then Able to see that <menuName> menu extended
+    When User click on "<categoryName>" menu
+    Then Able to see that all menu in "<categoryName>" extended
+
     Examples:
-    |categoryName|menuName|
-    |Elements    |Text Box,Check Box,Radio Button,Web Tables,Buttons,Links,Broken Links - Images,Upload and Download,Dynamic Properties|
-    |Forms       |Practice Form                                                                                                        |
-    |Alerts, Frame & Windows|Browser Windows,Alerts,Frames,Nested Frames                                                               |
+    |categoryName           |
+    |Elements               |
+    |Forms                  |
+    |Alerts, Frame & Windows|
+    |Widgets                |
+    |Interactions           |
+    |Book Store Application |

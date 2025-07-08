@@ -57,7 +57,7 @@ STEP 9 : Add runner class
 
 STEP 10: Run the command line 
 
-- mvn clean test -Dcucumber.filter.tags=@your_tag (make sure your terminal is CMD)
+- **mvn clean test -Dcucumber.filter.tags=@your_tag** (make sure your terminal is CMD)
 
 STEP 11: Set up "page" folder (naming as u wish)
 
