@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import pages.BasePage;
 
 public class baseSteps extends BasePage {
+    BasePage basePage;
     public baseSteps(WebDriver driver) {
         super(driver);
     }
@@ -13,13 +14,17 @@ public class baseSteps extends BasePage {
     public void userNavigateToPage(String page) {
 
     }
-    @When("User enter {string} field value {string}")
+    @When("User enter {string} input field value {string}")
     public void userEnterFieldWithValue(String fieldName, String value) {
-
+        basePage.enterValueToInputField(fieldName,value);
     }
     @When("User click on {string} button")
     public void userClickOnButton(String buttonName) {
-        System.out.println("step3");
+        basePage.clickOnButtonWithName(buttonName);
     }
 
+    @When("User enter {string} text area value {string}")
+    public void userEnterTextAreaValue(String fieldName, String value) {
+        basePage.enterValueToTextArea(fieldName,value);
+    }
 }

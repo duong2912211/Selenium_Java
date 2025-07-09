@@ -1,4 +1,4 @@
-@homepage
+@homepage @Functional
 Feature: Home Page Test
 
   @test0101
@@ -14,7 +14,7 @@ Feature: Home Page Test
   @test0102
   Scenario Outline: 01.02 User can navigate to other page by click category menu
     Given User access to Homepage
-    When User click on "<categoryName>" menu
+    When User click on "<categoryName>" category
     Then Able to see that all menu in "<categoryName>" extended
 
     Examples:

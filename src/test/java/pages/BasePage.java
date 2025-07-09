@@ -7,6 +7,8 @@ import runner.ConfigReader;
 
 import java.time.Duration;
 
+import static locators.elements.*;
+
 public abstract class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
@@ -51,13 +53,20 @@ public abstract class BasePage {
         waitForElementToBeClickable(locator).click();
     }
 
-    public void click(String xpath) {
-        click(By.xpath(xpath));
+    public void enterValueToInputField(String fieldName, String value){
+        By field = By.xpath(String.format(INPUT_FIELD_WITH_ID, fieldName.trim()));
+        waitForElementToBeVisible(field).clear();
+        waitForElementToBeVisible(field).sendKeys(value);
     }
 
-    public void type(By locator, String text) {
-        waitForElementToBeVisible(locator).clear();
-        waitForElementToBeVisible(locator).sendKeys(text);
+    public void enterValueToTextArea(String fieldName, String value){
+        By field = By.xpath(String.format(TEXT_AREA_WITH_ID, fieldName.trim()));
+        waitForElementToBeVisible(field).clear();
+        waitForElementToBeVisible(field).sendKeys(value);
+    }
+
+    public void clickOnButtonWithName(String buttonName){
+        click(By.xpath(String.format(BUTTON_WITH_TEXT,buttonName)));
     }
 
     public String getText(By locator) {
