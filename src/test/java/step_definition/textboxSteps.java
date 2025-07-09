@@ -13,9 +13,4 @@ public class textboxSteps {
     public void userOnPage(String page) {
         textBoxPage.navigateToPage(page);
     }
-
-    @Then("Able to see that user should log in successfully")
-    public void ableToSeeThatUserLogInSuccess() {
-        System.out.println("step4");
-    }
 }

@@ -34,4 +34,10 @@ public class HomePage extends BasePage{
         }
     }
 
+    public void clickOnSideMenu (String menuName){
+        By category = By.xpath(String.format(MENU, menuName));
+        scrollToElement(category);
+        click(category);
+    }
+
 }

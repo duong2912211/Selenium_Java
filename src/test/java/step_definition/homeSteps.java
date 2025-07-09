@@ -27,13 +27,18 @@ public class homeSteps {
         homePage.verifyCategoryVisible(categoryName);
     }
 
-    @When("User click on {string} menu")
-    public void userClickOnCategoryNameMenu(String categoryName) {
+    @When("User click on {string} category")
+    public void userClickOnCategoryNameItem(String categoryName) {
         homePage.clickOnCategoryMenu(categoryName);
     }
 
-  @Then("Able to see that all menu in {string} extended")
-  public void ableToSeeThatMenuExtended(String categoryName) {
+    @Then("Able to see that all menu in {string} extended")
+    public void ableToSeeThatMenuExtended(String categoryName) {
         homePage.verifyMenuListExtended(categoryName);
+    }
+
+    @When("User click on {string} side menu")
+    public void userClickOnSideMenu(String menuName) {
+        homePage.clickOnSideMenu(menuName);
     }
 }
