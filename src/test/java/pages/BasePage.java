@@ -1,5 +1,7 @@
 package pages;
 
+import helper.Helper;
+import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -19,22 +21,21 @@ public abstract class BasePage {
     }
 
     // Common Actions
-
     public void navigateToPage(String page){
         String env = System.getProperty("env", "dev"); // default to 'dev'
         ConfigReader.load(env);
 
-        String url = ConfigReader.get("base.url");
-        driver.navigate().to(url+"/"+page);
-    }
-
-    public void navigateToHomePage(){
-        String env = System.getProperty("env", "dev"); // default to 'dev'
-        ConfigReader.load(env);
-
-        String url = ConfigReader.get("base.url");
-        System.out.println(url);
-        driver.get(url);
+        String url = ConfigReader.get("base.home_url");
+        if(url == null){
+            throw new RuntimeException("No such parameter in config file");
+        }
+        String customUrl = "";
+        if(page.isBlank()){
+            customUrl = url;
+        }else {
+            customUrl = url+"/"+page;
+        }
+        driver.navigate().to(customUrl);
     }
 
     public WebElement waitForElementToBeVisible(By locator) {
@@ -87,6 +88,22 @@ public abstract class BasePage {
         } catch (TimeoutException e) {
             return false;
         }
+    }
+
+    public void verifyInputFieldIsVisible(String fieldName){
+        verifyElementVisible(By.xpath(String.format(INPUT_FIELD_WITH_ID,Helper.convertTextToId(fieldName))));
+    }
+
+    public void verifyErrorMessageIsVisible(String errorMsg){
+        verifyElementVisible(By.xpath(ERROR_MSG_WITH_ID));
+        System.out.println(getText(By.xpath(ERROR_MSG_WITH_ID)));
+        Assert.assertEquals(getText(By.xpath(ERROR_MSG_WITH_ID)),errorMsg);
+    }
+
+    public void verifyInputFieldIsClickable(String fieldName){
+        By field = By.xpath(String.format(INPUT_FIELD_WITH_ID,Helper.convertTextToId(fieldName)));
+        verifyElementClickable(field);
+        Helper.checkElementNotBlocked(driver,field);
     }
 
     // Optional: scroll, JS click, etc.

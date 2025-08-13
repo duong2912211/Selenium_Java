@@ -2,9 +2,11 @@ package pages;
 
 import org.openqa.selenium.WebDriver;
 
-public class TextBoxPage extends BasePage{
+public class LoginPage extends BasePage{
 
-    public TextBoxPage(WebDriver driver) {
+    public LoginPage(WebDriver driver) {
         super(driver);
     }
+
+
 }
