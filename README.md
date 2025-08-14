@@ -57,7 +57,7 @@ STEP 9 : Add runner class
 
 STEP 10: Run the command line 
 
-- **mvn clean test -Dcucumber.filter.tags=@your_tag** (make sure your terminal is CMD)
+- **mvn clean verify -Denv={environment} -Dbrowser={browser} -Dcucumber.filter.tags=@login** (make sure your terminal is CMD)
 
 STEP 11: Set up "page" folder (naming as u wish)
 
@@ -69,5 +69,7 @@ STEP 12: Create hooks file
 of web driver
 - Use @Before and @After annotations of Cucumber to create setup and teardown method
 
-STEP 13:
+STEP 13: 
+Run this line after test for generate HTML report
+allure generate target/allure-results --clean -o target/allure-report 
 
