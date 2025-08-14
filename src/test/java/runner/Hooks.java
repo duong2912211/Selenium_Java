@@ -17,8 +17,10 @@ public class Hooks {
     @Before(order = 1)
     public void browserSetup() {
         System.out.println(">>> Starting browser session...");
+        String browser = System.getProperty("browser", "chrome");
+        System.out.println(browser);
         // Initialize WebDriver before each scenario
-        DriverManager.initializeDriver();
+        DriverManager.initializeDriver(browser);
         if (DriverManager.isDriverInitialized()){
             System.out.println("WebDriver initialized successfully");
         }

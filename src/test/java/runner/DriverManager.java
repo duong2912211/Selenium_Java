@@ -3,6 +3,9 @@ package runner;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
 import java.time.Duration;
 
 /**
@@ -17,12 +20,27 @@ public class DriverManager {
     /**
      * Initialize WebDriver for current thread
      */
-    public static void initializeDriver() {
+    public static void initializeDriver(String browserName) {
         if (driverThreadLocal.get() == null) {
-            // Setup ChromeDriver automatically
-            WebDriverManager.chromedriver().setup();
+            WebDriver driver;
 
-            ChromeDriver driver = new ChromeDriver();
+            switch (browserName.toLowerCase()) {
+                case "firefox":
+                    WebDriverManager.firefoxdriver().setup();
+                    driver = new FirefoxDriver();
+                    break;
+
+                case "edge":
+                    WebDriverManager.edgedriver().setup();
+                    driver = new EdgeDriver();
+                    break;
+
+                case "chrome":
+                default:
+                    WebDriverManager.chromedriver().setup();
+                    driver = new ChromeDriver();
+                    break;
+            }
             driver.manage().window().maximize();
             driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
 
@@ -38,7 +56,8 @@ public class DriverManager {
     public static WebDriver getDriver() {
         WebDriver driver = driverThreadLocal.get();
         if (driver == null) {
-            initializeDriver();
+            String browser = System.getProperty("browser", "chrome");
+            initializeDriver(browser);
             driver = driverThreadLocal.get();
         }
         return driver;
