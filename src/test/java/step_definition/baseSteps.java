@@ -5,12 +5,16 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import pages.BasePage;
+import pages.HomePage;
+import pages.LoginPage;
+import runner.DriverManager;
 
-public class baseSteps extends BasePage {
-    BasePage basePage;
+public class baseSteps {
+    private final BasePage basePage;
 
-    public baseSteps(WebDriver driver) {
-        super(driver);
+    public baseSteps() {
+        // ✅ Use factory method to create BasePage instance
+        this.basePage = BasePage.createGenericPage(DriverManager.getDriver());
     }
 
     @When("User navigate to {string} page")
@@ -23,7 +27,7 @@ public class baseSteps extends BasePage {
     }
     @When("User click on {string} button")
     public void userClickOnButton(String buttonName) {
-        basePage.clickOnButtonWithName(buttonName);
+        basePage.clickOnButtonWithId(buttonName);
     }
 
     @When("User enter {string} text area value {string}")
@@ -39,5 +43,15 @@ public class baseSteps extends BasePage {
     @Then("Able to see that {string} error message is visible")
     public void ableToSeeThatErrorMessageIsVisible(String errorMsg) {
         basePage.verifyErrorMessageIsVisible(errorMsg);
+    }
+
+    @Then("Able to see that {string} button is visible")
+    public void ableToSeeThatButtonIsVisible(String buttonText) {
+        basePage.verifyButtonIsVisible(buttonText);
+    }
+
+    @Then("Able to see that {string} apps name on page")
+    public void ableToSeeThatAppsNameOnPage(String appName) {
+        basePage.verifyAppNameIsVisible(appName);
     }
 }

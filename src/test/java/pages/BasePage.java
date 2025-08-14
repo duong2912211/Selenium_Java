@@ -20,6 +20,13 @@ public abstract class BasePage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
+    public static BasePage createGenericPage(WebDriver driver) {
+        return new BasePage(driver) {
+            // Anonymous class implementation
+            // This creates a concrete instance of the abstract class
+        };
+    }
+
     // Common Actions
     public void navigateToPage(String page){
         String env = System.getProperty("env", "dev"); // default to 'dev'
@@ -38,11 +45,22 @@ public abstract class BasePage {
         driver.navigate().to(customUrl);
     }
 
+    /**
+     * Wait for page to load completely
+     */
+    protected void waitForPageLoad() {
+        wait.until(webDriver ->
+                ((org.openqa.selenium.JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete"));
+    }
+
     public WebElement waitForElementToBeVisible(By locator) {
+        waitForPageLoad();
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public WebElement waitForElementToBeClickable(By locator) {
+        waitForPageLoad();
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
@@ -55,7 +73,7 @@ public abstract class BasePage {
     }
 
     public void enterValueToInputField(String fieldName, String value){
-        By field = By.xpath(String.format(INPUT_FIELD_WITH_ID, fieldName.trim()));
+        By field = By.xpath(String.format(INPUT_FIELD_WITH_ID, fieldName.toLowerCase().trim()));
         waitForElementToBeVisible(field).clear();
         waitForElementToBeVisible(field).sendKeys(value);
     }
@@ -68,6 +86,10 @@ public abstract class BasePage {
 
     public void clickOnButtonWithName(String buttonName){
         click(By.xpath(String.format(BUTTON_WITH_TEXT,buttonName)));
+    }
+
+    public void clickOnButtonWithId(String buttonName){
+        click(Helper.byIdIgnoreCaseAndSpaces("input","id",buttonName));
     }
 
     public String getText(By locator) {
@@ -96,7 +118,6 @@ public abstract class BasePage {
 
     public void verifyErrorMessageIsVisible(String errorMsg){
         verifyElementVisible(By.xpath(ERROR_MSG_WITH_ID));
-        System.out.println(getText(By.xpath(ERROR_MSG_WITH_ID)));
         Assert.assertEquals(getText(By.xpath(ERROR_MSG_WITH_ID)),errorMsg);
     }
 
@@ -106,9 +127,19 @@ public abstract class BasePage {
         Helper.checkElementNotBlocked(driver,field);
     }
 
+    public void verifyButtonIsVisible(String buttonName){
+        verifyElementVisible(By.xpath(String.format(BUTTON_WITH_ID,buttonName)));
+    }
+
     // Optional: scroll, JS click, etc.
     public void scrollToElement(By locator) {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
+    public void verifyAppNameIsVisible(String appName){
+        By appTitles = By.xpath(String.format(APP_TITLES, appName));
+        verifyElementVisible(appTitles);
+        Assert.assertEquals(getText(appTitles),appName);
     }
 }

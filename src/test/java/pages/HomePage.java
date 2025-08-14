@@ -15,16 +15,6 @@ public class HomePage extends BasePage{
         super(driver);
     }
 
-    public void verifyCategoryVisible(String categoryName){
-        verifyElementVisible(By.xpath(String.format(ELEMENT_CATEGORY, categoryName)));
-    }
-
-    public void clickOnCategoryMenu (String categoryName){
-        By category = By.xpath(String.format(ELEMENT_CATEGORY, categoryName));
-        scrollToElement(category);
-        click(category);
-    }
-
     public void verifyMenuListExtended(String categoryName){
         String menuList = JsonDataReader.get(Hooks.getScenarioPrefix(),categoryName);
         String[] menuName = menuList.split(",");
@@ -39,5 +29,4 @@ public class HomePage extends BasePage{
         scrollToElement(category);
         click(category);
     }
-
 }

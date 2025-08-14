@@ -4,49 +4,86 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Basic project coordinates -->
     <groupId>org.example</groupId>
     <artifactId>Selenium_Java_Cucumber</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <!-- Java version for compilation -->
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+
+        <!-- Character encoding for source files -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Centralized Allure version (so it can be reused in multiple places) -->
+        <allure.version>2.29.1</allure.version>
     </properties>
 
-    <!-- Point directly to your custom runner class -->
     <build>
         <plugins>
+            <!-- Clean target/allure-results before each run -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>target/allure-results</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+
+            <!-- Runs JUnit tests, including Cucumber runners -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
+                    <!-- Specify which test classes to run -->
+                    <!-- Change this to your actual runner class name if needed -->
                     <includes>
-                        <include>**/Test.java</include> <!-- or whatever name -->
+                        <include>**/Test.java</include>
                     </includes>
+                    <systemPropertyVariables>
+                        <allure.results.directory>target/allure-results</allure.results.directory>
+                    </systemPropertyVariables>
                 </configuration>
+            </plugin>
+
+            <!-- Maven plugin for generating Allure reports -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.12.0</version>
             </plugin>
         </plugins>
     </build>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+        <!-- Cucumber core Java API -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>7.23.0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+        <!-- JUnit 4 (required for cucumber-junit runner) -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>6.0.0-M1</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
+        <!-- Cucumber JUnit 4 integration -->
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
@@ -54,27 +91,32 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+        <!-- Selenium WebDriver for browser automation -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>4.34.0</version>
         </dependency>
 
+        <!-- WebDriverManager: automatically downloads the correct browser drivers -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.7.0</version> <!-- or latest -->
+            <version>5.7.0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-picocontainer -->
+        <!-- Allure adapter for JUnit 4 -->
         <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-picocontainer</artifactId>
-            <version>7.27.0</version>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit4</artifactId>
+            <version>${allure.version}</version>
         </dependency>
 
+        <!-- Allure adapter for Cucumber 7 -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
     </dependencies>
-
-
 </project>

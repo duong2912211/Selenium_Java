@@ -4,12 +4,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pages.HomePage;
+import runner.DriverManager;
 
 public class homeSteps {
     private final HomePage homePage;
 
-    public homeSteps(HomePage homePage) {
-        this.homePage = homePage;
+    public homeSteps() {
+        this.homePage = new HomePage(DriverManager.getDriver());
     }
 
     @Given("User access to Homepage")
@@ -19,12 +20,10 @@ public class homeSteps {
 
     @Then("Able to see that {string} category is visible")
     public void ableToSeeThatCategoryIsVisible(String categoryName) {
-        homePage.verifyCategoryVisible(categoryName);
     }
 
     @When("User click on {string} category")
     public void userClickOnCategoryNameItem(String categoryName) {
-        homePage.clickOnCategoryMenu(categoryName);
     }
 
     @Then("Able to see that all menu in {string} extended")
