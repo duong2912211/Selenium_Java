@@ -79,22 +79,18 @@ steps:
     condition: always()
 
   # Step 8: Publish Allure report as artifact
-  - task: PublishPipelineArtifact@1
+  - task: CopyFile@1
     inputs:
-      targetPath: 'target/allure-report'
-      artifact: 'AllureReport'
-      publishLocation: 'pipeline'
+      sourceFolder: 'target/allure-report'
+      targetFolder: $(Build.ArtifactStagingDirectory)
     condition: always()
-    displayName: 'Publish Allure Report'
 
   # Step 9: Publish Screenshots (if any failures occurred)
-  - task: PublishPipelineArtifact@1
+  - task: PublishBuildArtifacts@1
     inputs:
-      targetPath: 'target/screenshots'
-      artifact: 'Screenshots'
-      publishLocation: 'pipeline'
-    condition: failed()
-    displayName: 'Publish Screenshots on Failure'
+      pathToPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: 'AllureReport'
+    condition: always()
 
   # Step 10: Set pipeline result based on preference
   - script: |
