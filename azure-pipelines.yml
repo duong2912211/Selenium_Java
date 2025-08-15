@@ -15,7 +15,7 @@ variables:
 
 steps:
   # Step 1: Checkout repo
-  - task: Checkout@v3
+  - task: Checkout@3
     inputs:
       clean: true
 
