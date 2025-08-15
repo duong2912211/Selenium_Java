@@ -15,9 +15,8 @@ variables:
 
 steps:
   # Step 1: Checkout repo
-  - task: Checkout@3
-    inputs:
-      clean: true
+  - checkout: self
+    clean: true
 
   # Step 2: Install Java 21
   - task: JavaToolInstaller@0
