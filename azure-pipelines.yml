@@ -12,6 +12,7 @@ pool:
 
 variables:
   MAVEN_OPTS: "-Xmx1024m"
+  MAVEN_USER_HOME: $(Pipeline.Workspace)/.m2
 
 steps:
   # Step 1: Checkout repo
@@ -31,11 +32,12 @@ steps:
       key: 'maven | "$(Agent.OS)" | **/pom.xml'
       restoreKeys: |
         maven | "$(Agent.OS)"
-      path: ~/.m2
+      path: $(MAVEN_USER_HOME)
 
   # Step 4: Run Selenium + Cucumber Tests
   - script: |
       mvn clean verify \
+        -Dmaven.repo.local=$(MAVEN_USER_HOME)/repository \
         -Denv=$(environment) \
         -Dbrowser=$(browser) \
         -Dcucumber.filter.tags=@$(tag) \
