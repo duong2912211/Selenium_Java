@@ -3,6 +3,7 @@ package runner;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -38,6 +39,20 @@ public class DriverManager {
                 case "chrome":
                 default:
                     WebDriverManager.chromedriver().setup();
+
+                    ChromeOptions options = new ChromeOptions();
+
+                    // Detect CI environment (Azure Pipelines, GitHub Actions, etc.)
+                    if (System.getenv("TF_BUILD") != null || System.getenv("CI") != null) {
+                        options.addArguments("--headless=new");
+                        options.addArguments("--no-sandbox");
+                        options.addArguments("--disable-dev-shm-usage");
+                        options.addArguments("--disable-gpu");
+                        options.addArguments("--remote-allow-origins=*");
+                        options.addArguments("--user-data-dir=" +
+                                System.getProperty("java.io.tmpdir") + "/chrome-" + System.currentTimeMillis());
+                    }
+
                     driver = new ChromeDriver();
                     break;
             }
