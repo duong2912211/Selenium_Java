@@ -1,0 +1,64 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+# azure-pipelines.yml
+trigger:
+  - $(branch)  # Change if your default branch is different
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  MAVEN_OPTS: "-Xmx1024m"
+
+steps:
+  # Step 1: Checkout repo
+  - task: Checkout@v3
+    inputs:
+      clean: true
+
+  # Step 2: Install Java 21
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '21'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'PreInstalled'
+
+  # Step 3: Cache Maven dependencies
+  - task: Cache@2
+    inputs:
+      key: 'maven | "$(Agent.OS)" | **/pom.xml'
+      restoreKeys: |
+        maven | "$(Agent.OS)"
+      path: ~/.m2
+
+  # Step 4: Run Selenium + Cucumber Tests
+  - script: |
+      mvn clean verify \
+        -Denv=$(environment) \
+        -Dbrowser=$(browser) \
+        -Dcucumber.filter.tags=@$(tag)
+    displayName: 'Run Selenium Java Cucumber Tests'
+
+  # Step 5: Install Allure CLI
+  - script: |
+      sudo apt-get update
+      sudo apt-get install -y unzip
+      wget https://github.com/allure-framework/allure2/releases/download/2.34.1/allure-2.34.1.zip
+      unzip allure-2.34.1.zip -d /opt/
+      sudo ln -s /opt/allure-2.34.1/bin/allure /usr/bin/allure
+    displayName: 'Install Allure CLI'
+
+  # Step 6: Generate Allure Report
+  - script: |
+      allure generate target/allure-results --clean -o target/allure-report
+    displayName: 'Generate Allure Report'
+
+  # Step 7: Publish Allure report as artifact
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: 'target/allure-report'
+      artifact: 'AllureReport'
+      publishLocation: 'pipeline'
