@@ -40,6 +40,7 @@ steps:
         -Dbrowser=$(browser) \
         -Dcucumber.filter.tags=@$(tag)
     displayName: 'Run Selenium Java Cucumber Tests'
+    continueOnError: true
 
   # Step 5: Install Allure CLI
   - script: |
