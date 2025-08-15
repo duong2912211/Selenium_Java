@@ -79,7 +79,7 @@ steps:
     condition: always()
 
   # Step 8: Publish Allure report as artifact
-  - task: CopyFile@1
+  - task: CopyFiles@1
     inputs:
       sourceFolder: 'target/allure-report'
       targetFolder: $(Build.ArtifactStagingDirectory)
