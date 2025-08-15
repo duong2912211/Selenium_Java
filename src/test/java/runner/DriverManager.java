@@ -42,6 +42,10 @@ public class DriverManager {
 
                     ChromeOptions options = new ChromeOptions();
 
+                    // Always unique profile dir to avoid lock in CI
+//                    String tempProfile = System.getProperty("java.io.tmpdir") + "/chrome-profile-" + System.nanoTime();
+//                    options.addArguments("--user-data-dir=" + tempProfile);
+
                     // Detect CI environment (Azure Pipelines, GitHub Actions, etc.)
                     if (System.getenv("TF_BUILD") != null || System.getenv("CI") != null) {
                         options.addArguments("--headless=new");
@@ -53,7 +57,7 @@ public class DriverManager {
                                 System.getProperty("java.io.tmpdir") + "/chrome-" + System.currentTimeMillis());
                     }
 
-                    driver = new ChromeDriver();
+                    driver = new ChromeDriver(options);
                     break;
             }
             driver.manage().window().maximize();
