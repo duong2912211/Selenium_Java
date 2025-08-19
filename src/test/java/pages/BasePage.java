@@ -142,4 +142,11 @@ public abstract class BasePage {
         verifyElementVisible(appTitles);
         Assert.assertEquals(getText(appTitles),appName);
     }
+
+    public void verifyTabIsVisible(String tabName){
+        By appTitles = By.xpath(String.format(TAB_WITH_TEXT, tabName));
+        verifyElementVisible(appTitles);
+        Assert.assertEquals(getText(appTitles),tabName);
+    }
+
 }
