@@ -8,6 +8,8 @@ import pages.LeadPage;
 import pages.LoginPage;
 import runner.DriverManager;
 
+import java.io.IOException;
+
 public class leadSteps {
 
     private final LeadPage leadPage;
@@ -39,5 +41,10 @@ public class leadSteps {
     @Then("Able to see {string} New Lead Form loaded")
     public void ableToSeeNewLeadFormLoaded(String formType) {
         leadPage.verifyNewLeadCreationFormVisible(formType);
+    }
+
+    @When("User update customer information in New Lead Form")
+    public void userUpdateCustomerInformationInNewLeadForm() throws IOException {
+        leadPage.updateNewLeadFormWithExcelData();
     }
 }

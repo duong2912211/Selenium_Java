@@ -11,3 +11,5 @@ Feature: Leads Page Test
     And User click on "Next" button in New Lead Form
     Then Able to see "Unqualified Lead" New Lead Form loaded
 
+    When User update customer information in New Lead Form
+
