@@ -73,15 +73,17 @@ public abstract class BasePage {
     }
 
     public void enterValueToInputField(String fieldName, String value){
-        By field = By.xpath(String.format(INPUT_FIELD_WITH_ID, fieldName.toLowerCase().trim()));
-        waitForElementToBeVisible(field).clear();
-        waitForElementToBeVisible(field).sendKeys(value);
+        By field = By.xpath(String.format(INPUT_FIELD, fieldName.trim(),fieldName.trim()));
+        WebElement input = waitForElementToBeVisible(field);
+        input.clear();
+        input.sendKeys(value);
     }
 
     public void enterValueToTextArea(String fieldName, String value){
-        By field = By.xpath(String.format(TEXT_AREA_WITH_ID, fieldName.trim()));
-        waitForElementToBeVisible(field).clear();
-        waitForElementToBeVisible(field).sendKeys(value);
+        By field = By.xpath(String.format(TEXT_AREA, fieldName.trim(), fieldName.trim()));
+        WebElement input = waitForElementToBeVisible(field);
+        input.clear();
+        input.sendKeys(value);
     }
 
     public void clickOnButtonWithName(String buttonName){
@@ -113,7 +115,7 @@ public abstract class BasePage {
     }
 
     public void verifyInputFieldIsVisible(String fieldName){
-        verifyElementVisible(By.xpath(String.format(INPUT_FIELD_WITH_ID,Helper.convertTextToId(fieldName))));
+        verifyElementVisible(By.xpath(String.format(INPUT_FIELD,Helper.convertTextToId(fieldName))));
     }
 
     public void verifyErrorMessageIsVisible(String errorMsg){
@@ -122,7 +124,7 @@ public abstract class BasePage {
     }
 
     public void verifyInputFieldIsClickable(String fieldName){
-        By field = By.xpath(String.format(INPUT_FIELD_WITH_ID,Helper.convertTextToId(fieldName)));
+        By field = By.xpath(String.format(INPUT_FIELD,Helper.convertTextToId(fieldName)));
         verifyElementClickable(field);
         Helper.checkElementNotBlocked(driver,field);
     }
