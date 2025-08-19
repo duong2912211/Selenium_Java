@@ -54,4 +54,9 @@ public class baseSteps {
     public void ableToSeeThatAppsNameOnPage(String appName) {
         basePage.verifyAppNameIsVisible(appName);
     }
+
+    @Then("Able to see that {string} tab is visible on page")
+    public void ableToSeeThatStringTabIsVisibleOnPage(String tabName) {
+        basePage.verifyTabIsVisible(tabName);
+    }
 }

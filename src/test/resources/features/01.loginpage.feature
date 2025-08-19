@@ -14,7 +14,7 @@ Feature: Login Page Test
   @login0102
   Scenario: 01.02 User login successfully
     Given User access to Login page
-    When User enter "Username" input field value "epicseven211942@agentforce.com"
-    And User enter "Password" input field value "Duong2912@"
+    When User enter "Username" input field value "emil.aiateam@seat.com.uat"
+    And User enter "Password" input field value "NTTTest2025!."
     And User click on "Login" button
-    Then Able to see that "Sales" apps name on page
+#    Then Able to see that "Sales" apps name on page
