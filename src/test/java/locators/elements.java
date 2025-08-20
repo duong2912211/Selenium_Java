@@ -4,6 +4,8 @@ public class elements {
     //Base
     public static final String INPUT_FIELD = "//input[@id='%s' or @name='%s']";
     public static final String TEXT_AREA = "//textarea[@id='%s' or @name='%s']";
+    public static final String SELECT_FIELD = "//lightning-base-combobox//button[@aria-label='%s']";
+    public static final String SELECT_FIELD_OPTION = "//div[@aria-label='%s']/lightning-base-combobox-item[@data-value='%s']";
     public static final String BUTTON_WITH_ID = "//button[@id='%s']";
     public static final String BUTTON_WITH_TEXT = "//button[text()='%s']";
     public static final String ERROR_MSG_WITH_ID = "//div[@id='error']";
@@ -20,4 +22,6 @@ public class elements {
     public static final String NEW_LEAD_FORM_BUTTON = "//button[@data-aura-class='uiButton']/span[text()='%s']";
     public static final String NEW_LEAD_CREATION_FORM_TITLE = "//h2[contains(@class,'slds-modal__title')]";
     public static final String NEW_LEAD_CREATION_FORM = "//records-base-record-form";
+    public static final String NEW_LEAD_CREATION_SEARCH_FIELD = "//label[text()='%s']/following-sibling::div//input";
+    public static final String NEW_LEAD_CREATION_SEARCH_FIELD_OPTION = "//lightning-base-combobox-formatted-text[@title='%s']";
 }

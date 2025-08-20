@@ -4,8 +4,10 @@ import helper.ExcelHandler;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import static locators.elements.*;
@@ -46,15 +48,16 @@ public class LeadPage extends BasePage{
     }
 
     public void updateNewLeadFormWithExcelData() throws IOException {
-        List<String> dataList = ExcelHandler.readExcelFile();
+        HashMap<String,String> dataList = ExcelHandler.readExcelFile();
 
-        enterValueToInputField("firstName",dataList.get(0));
-        enterValueToInputField("lastName",dataList.get(1));
-        enterValueToInputField("MobilePhone",dataList.get(2));
-        enterValueToInputField("Phone",dataList.get(3));
-        enterValueToInputField("Email",dataList.get(4));
-        enterValueToTextArea("street",dataList.get(5));
-        enterValueToInputField("postalCode",dataList.get(6));
-        enterValueToInputField("city",dataList.get(7));
+        enterValueToInputField("firstName",dataList.get("firstname"));
+        enterValueToInputField("lastName",dataList.get("lastname"));
+        enterValueToInputField("MobilePhone",dataList.get("mobile"));
+        enterValueToInputField("Phone",dataList.get("phone"));
+        enterValueToInputField("Email",dataList.get("email --> nomail.com"));
+        enterValueToTextArea("street",dataList.get("street"));
+        enterValueToInputField("postalCode",dataList.get("zip"));
+        enterValueToInputField("city",dataList.get("city"));
+        selectOptionForSelectorField("Customer Type","Test Drive");
     }
 }

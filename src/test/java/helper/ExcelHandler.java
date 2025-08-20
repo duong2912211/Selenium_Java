@@ -5,7 +5,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExcelHandler {
 
@@ -64,8 +66,8 @@ public class ExcelHandler {
         return getCellValue(cell); // reuse the safe getCellValue() we wrote earlier
     }
 
-    public static List<String> readExcelFile() throws IOException {
-        List<String> output = new ArrayList<>();
+    public static HashMap<String,String> readExcelFile() throws IOException {
+        HashMap<String,String> output = new HashMap<>();
         // Path to Excel file
         String filePath = "src/test/resources/data/TestData.xlsx";
 
@@ -92,7 +94,7 @@ public class ExcelHandler {
         Row row = sheet.getRow(avalableRow);
         String titleList = "firstname,lastname,mobile,phone,email --> nomail.com,street,zip,city";
         for (String title : titleList.split(",")) {
-            output.add(getCellValueByTitle(row,sheet,title));
+            output.put(title,getCellValueByTitle(row,sheet,title));
         }
 
 //        Cell statusCell = row.getCell(0);

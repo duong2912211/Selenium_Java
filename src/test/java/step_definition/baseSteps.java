@@ -1,6 +1,7 @@
 package step_definition;
 
 import io.cucumber.java.PendingException;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
@@ -58,5 +59,10 @@ public class baseSteps {
     @Then("Able to see that {string} tab is visible on page")
     public void ableToSeeThatStringTabIsVisibleOnPage(String tabName) {
         basePage.verifyTabIsVisible(tabName);
+    }
+
+    @And("User update {string} search field with {string}")
+    public void userUpdateSearchFieldWith(String fieldName, String data) {
+        basePage.selectOptionForSearchField(fieldName,data);
     }
 }

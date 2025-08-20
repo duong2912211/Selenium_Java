@@ -34,7 +34,7 @@ public class leadSteps {
     }
 
     @When("User click on {string} button in New Lead Form")
-    public void userClickOnButtonInNewLeadForm(String button) throws InterruptedException {
+    public void userClickOnButtonInNewLeadForm(String button){
         leadPage.clickOnButtonInNewLeadForm(button);
     }
 

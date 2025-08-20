@@ -12,4 +12,5 @@ Feature: Leads Page Test
     Then Able to see "Unqualified Lead" New Lead Form loaded
 
     When User update customer information in New Lead Form
-
+    And User update "Vehicle Interest" search field with "SEAT Tarraco"
+    And User update "Dealer" search field with "Test ISA"

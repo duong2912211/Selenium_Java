@@ -86,6 +86,24 @@ public abstract class BasePage {
         input.sendKeys(value);
     }
 
+    public void selectOptionForSelectorField(String fieldName, String optionText){
+        By selectField = By.xpath(String.format(SELECT_FIELD,fieldName));
+        click(selectField);
+
+        By option = By.xpath(String.format(SELECT_FIELD_OPTION,fieldName,optionText));
+        click(option);
+    }
+
+    public void selectOptionForSearchField(String fieldName,String data){
+        By field = By.xpath(String.format(NEW_LEAD_CREATION_SEARCH_FIELD,fieldName));
+        WebElement vehicleInterestField = waitForElementToBeVisible(field);
+        vehicleInterestField.clear();
+        vehicleInterestField.sendKeys(data);
+
+        By option = By.xpath(String.format(NEW_LEAD_CREATION_SEARCH_FIELD_OPTION,data));
+        click(option);
+    }
+
     public void clickOnButtonWithName(String buttonName){
         click(By.xpath(String.format(BUTTON_WITH_TEXT,buttonName)));
     }
@@ -150,5 +168,4 @@ public abstract class BasePage {
         verifyElementVisible(appTitles);
         Assert.assertEquals(getText(appTitles),tabName);
     }
-
 }
