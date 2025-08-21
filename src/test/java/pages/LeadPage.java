@@ -5,10 +5,13 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import runner.Hooks;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static locators.elements.*;
 
@@ -50,6 +53,7 @@ public class LeadPage extends BasePage{
     public void updateNewLeadFormWithExcelData() throws IOException {
         HashMap<String,String> dataList = ExcelHandler.readExcelFile();
 
+
         enterValueToInputField("firstName",dataList.get("firstname"));
         enterValueToInputField("lastName",dataList.get("lastname"));
         enterValueToInputField("MobilePhone",dataList.get("mobile"));
@@ -59,5 +63,21 @@ public class LeadPage extends BasePage{
         enterValueToInputField("postalCode",dataList.get("zip"));
         enterValueToInputField("city",dataList.get("city"));
         selectOptionForSelectorField("Customer Type","Test Drive");
+    }
+
+    public void verifyNewRecordShowOnLeadListingPage() throws IOException {
+        HashMap<String,String> dataList = ExcelHandler.readExcelFile();
+        String expectedName = dataList.get("firstname")+ dataList.get("lastname");
+        WebElement leadListingTable = driver.findElement(By.xpath(LEAD_LISTING_TABLE));
+
+        List<WebElement> rows = leadListingTable.findElements(By.xpath(".//tbody//tr"));
+        for (WebElement row : rows) {
+            if(row.findElement(By.xpath("//th[@data-label=Name']")).getText().equals(expectedName)){
+                Assert.assertEquals(dataList.get("mobile"),row.findElement(By.xpath("//th[@data-label=Mobile']")).getText());
+                Assert.assertEquals(dataList.get("phone"),row.findElement(By.xpath("//th[@data-label=Phone']")).getText());
+                Assert.assertEquals("SEAT",row.findElement(By.xpath("//th[@data-label=Brand']")).getText());
+            }
+        }
+
     }
 }

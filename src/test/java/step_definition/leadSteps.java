@@ -47,4 +47,9 @@ public class leadSteps {
     public void userUpdateCustomerInformationInNewLeadForm() throws IOException {
         leadPage.updateNewLeadFormWithExcelData();
     }
+
+    @Then("Verify new Leads record created with correct data on Lead listing page")
+    public void verifyNewLeadsRecordCreatedWithCorrectDataOnLeadListingPage() throws IOException {
+        leadPage.verifyNewRecordShowOnLeadListingPage();
+    }
 }

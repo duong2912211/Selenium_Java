@@ -17,7 +17,8 @@ public class elements {
     public static final String FORGOT_YOUR_PASSWORD_LINK = "//a[@id='forgot_password_link']";
 
     //Leads
-    public static final String QUICK_ACTION_BUTTON = "//a[@class='forceActionLink' and @title='%s'] ";
+    public static final String QUICK_ACTION_BUTTON = "//a[@class='forceActionLink' and @title='%s']";
+    public static final String LEAD_LISTING_TABLE = "//table[@aria-label='Test Latest Leads']";
     public static final String NEW_LEAD_TYPE_SELECT_FORM_CHECKBOX = "(//span[text()='%s'])[1]";
     public static final String NEW_LEAD_FORM_BUTTON = "//button[@data-aura-class='uiButton']/span[text()='%s']";
     public static final String NEW_LEAD_CREATION_FORM_TITLE = "//h2[contains(@class,'slds-modal__title')]";

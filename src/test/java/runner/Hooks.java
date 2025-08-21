@@ -1,5 +1,6 @@
 package runner;
 
+import helper.ScenarioContext;
 import io.cucumber.java.After;
 import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
@@ -13,12 +14,17 @@ import static runner.DriverManager.getDriver;
 public class Hooks {
 
     public static String scenarioNumberialOrder;
+    public static ScenarioContext scenarioContext;
+
+    @Before(order = 2)
+    public void beforeScenario() {
+        scenarioContext = new ScenarioContext(); // fresh context for each scenario
+    }
 
     @Before(order = 1)
     public void browserSetup() {
         System.out.println(">>> Starting browser session...");
         String browser = System.getProperty("browser", "chrome");
-        System.out.println(browser);
         // Initialize WebDriver before each scenario
         DriverManager.initializeDriver(browser);
         if (DriverManager.isDriverInitialized()){
@@ -38,6 +44,10 @@ public class Hooks {
         if (scenario.isFailed()) {
             System.out.println("Scenario failed: " + scenario.getName());
             // Add screenshot logic here if needed
+        }
+
+        if (scenarioContext != null) {
+            scenarioContext.clear(); // clean up after scenario
         }
 
         // Clean up WebDriver after each scenario
