@@ -168,4 +168,18 @@ public abstract class BasePage {
         verifyElementVisible(appTitles);
         Assert.assertEquals(getText(appTitles),tabName);
     }
+
+    public void clickOnShowNavigationMenuIcon(){
+        click(By.xpath(SHOW_NAVIGATION_MENU));
+    }
+
+    public void selectNavigationMenu(String menuItem){
+        click(By.xpath(String.format(NAVIGATION_MENU_WITH_TEXT,menuItem)));
+    }
+
+    public void pressEnter(String fieldName){
+        By field = By.xpath(String.format(INPUT_FIELD, fieldName.trim(),fieldName.trim()));
+        WebElement input = waitForElementToBeVisible(field);
+        input.sendKeys(Keys.ENTER);
+    }
 }

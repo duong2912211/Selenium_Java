@@ -28,9 +28,14 @@ public class leadSteps {
         leadPage.verifyNewLeadTypeSelectFormVisible();
     }
 
-    @When("User click on {string} New Lead type check box")
+    @When("User click on {string} New Lead type select check box")
     public void userClickOnNewLeadTypeCheckBox(String type) {
-        leadPage.clickOnNewLeadTypeCheckBox(type);
+        leadPage.clickOnNewLeadTypeSelectCheckBox(type);
+    }
+
+    @And("User click on {string} button in New Lead Type select Form")
+    public void userClickOnButtonInNewLeadTypeSelectForm(String button) {
+        leadPage.clickOnButtonInNewLeadSelectTypeForm(button);
     }
 
     @When("User click on {string} button in New Lead Form")
@@ -49,7 +54,7 @@ public class leadSteps {
     }
 
     @Then("Verify new Leads record created with correct data on Lead listing page")
-    public void verifyNewLeadsRecordCreatedWithCorrectDataOnLeadListingPage() throws IOException {
+    public void verifyNewLeadsRecordCreatedWithCorrectDataOnLeadListingPage() throws IOException, InterruptedException {
         leadPage.verifyNewRecordShowOnLeadListingPage();
     }
 }

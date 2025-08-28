@@ -65,4 +65,19 @@ public class baseSteps {
     public void userUpdateSearchFieldWith(String fieldName, String data) {
         basePage.selectOptionForSearchField(fieldName,data);
     }
+
+    @When("Wait for {int} seconds")
+    public void iWaitForSeconds(int seconds) throws InterruptedException {
+        Thread.sleep(seconds * 1000L);
+    }
+
+    @When("User click on Show Navigation Menu icon")
+    public void userClickOnShowNavigationMenuIcon() {
+        basePage.clickOnShowNavigationMenuIcon();
+    }
+
+    @When("User select {string} Navigation Item")
+    public void userSelectNavigationItem(String item) {
+        basePage.selectNavigationMenu(item);
+    }
 }
