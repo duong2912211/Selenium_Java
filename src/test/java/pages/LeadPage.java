@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.rmi.NoSuchObjectException;
 import java.util.*;
 
+import static helper.PhoneDE.equalsIgnoringFormatting;
 import static locators.elements.*;
 
 public class LeadPage extends BasePage{
@@ -99,11 +100,10 @@ public class LeadPage extends BasePage{
             for (int i= 1; i <= Integer.parseInt(Objects.requireNonNull(rowNumber)) ; i++){
                 String rowXpath = "//tr[@data-row-number='"+i+"']";
                 Assert.assertEquals(expectedName,driver.findElement(By.xpath(rowXpath + "//th[@data-label='Name']//slot/span")).getText());
-                Assert.assertEquals("+49 " + dataList.get("mobile").replaceAll("[()]", "").substring(1),driver.findElement(By.xpath(rowXpath + "//td[@data-label='Mobile']//a")).getText());
-                Assert.assertEquals("+49 " + dataList.get("phone").replaceAll("[()]", "").substring(1),driver.findElement(By.xpath(rowXpath + "//td[@data-label='Phone']//a")).getText());
+                Assert.assertTrue(equalsIgnoringFormatting(dataList.get("mobile"),driver.findElement(By.xpath(rowXpath + "//td[@data-label='Mobile']//a")).getText()));
+                Assert.assertTrue(equalsIgnoringFormatting(dataList.get("phone"),driver.findElement(By.xpath(rowXpath + "//td[@data-label='Phone']//a")).getText()));
                 Assert.assertEquals("SEAT",driver.findElement(By.xpath(rowXpath + "//td[@data-label='Brand']//lst-formatted-text/span")).getText());
             }
-
         } else throw new RuntimeException("No record found");
     }
 }
