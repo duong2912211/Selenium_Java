@@ -11,9 +11,8 @@ Feature: Leads Page Test
     And User click on "Next" button in New Lead Type select Form
     Then Able to see "Unqualified Lead" New Lead Form loaded
 
+    When Get new lead data from excel file
     When User update customer information in New Lead Form
-    And User update "Vehicle Interest" search field with "SEAT Tarraco"
-    And User update "Dealer" search field with "Test ISA"
 #    And User click on "Save" button in New Lead Form
 
     When Wait for 5 seconds

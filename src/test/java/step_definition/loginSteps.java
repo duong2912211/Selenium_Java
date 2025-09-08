@@ -1,6 +1,5 @@
 package step_definition;
 
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import pages.LoginPage;
@@ -17,7 +16,7 @@ public class loginSteps {
 
     @Given("User access to Login page")
     public void userAccessToLoginPage() {
-        loginPage.navigateToPage("");
+        loginPage.navigateToPage("cem_saleforce_url");
     }
 
     @Given("User login with account {string}")
@@ -25,9 +24,9 @@ public class loginSteps {
         String env = System.getProperty("env", "dev"); // default to 'dev'
         ConfigReader.load(env);
 
-        loginPage.navigateToPage("");
-        loginPage.enterValueToInputField("username",ConfigReader.get("base."+acc.toLowerCase().trim()+".username"));
-        loginPage.enterValueToInputField("password",ConfigReader.get("base."+acc.toLowerCase().trim()+".password"));
+        loginPage.navigateToPage("cem_saleforce_url");
+        loginPage.enterValueToInputField("username", ConfigReader.get("base." + acc.toLowerCase().trim() + ".username"));
+        loginPage.enterValueToInputField("password", ConfigReader.get("base." + acc.toLowerCase().trim() + ".password"));
         loginPage.clickOnButtonWithId("Login");
     }
 

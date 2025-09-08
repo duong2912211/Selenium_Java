@@ -1,14 +1,14 @@
 package step_definition;
 
+import helper.ExcelHandler;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.WebDriver;
 import pages.BasePage;
-import pages.HomePage;
-import pages.LoginPage;
 import runner.DriverManager;
+
+import java.io.IOException;
 
 public class baseSteps {
     private final BasePage basePage;
@@ -22,10 +22,12 @@ public class baseSteps {
     public void userNavigateToPage(String page) {
 
     }
+
     @When("User enter {string} input field value {string}")
     public void userEnterFieldWithValue(String fieldName, String value) {
-        basePage.enterValueToInputField(fieldName,value);
+        basePage.enterValueToInputField(fieldName, value);
     }
+
     @When("User click on {string} button")
     public void userClickOnButton(String buttonName) {
         basePage.clickOnButtonWithId(buttonName);
@@ -33,7 +35,7 @@ public class baseSteps {
 
     @When("User enter {string} text area value {string}")
     public void userEnterTextAreaValue(String fieldName, String value) {
-        basePage.enterValueToTextArea(fieldName,value);
+        basePage.enterValueToTextArea(fieldName, value);
     }
 
     @Then("Able to see that {string} input field is visible")
@@ -63,7 +65,7 @@ public class baseSteps {
 
     @And("User update {string} search field with {string}")
     public void userUpdateSearchFieldWith(String fieldName, String data) {
-        basePage.selectOptionForSearchField(fieldName,data);
+        basePage.selectOptionForSearchField(fieldName, data);
     }
 
     @When("Wait for {int} seconds")
@@ -79,5 +81,20 @@ public class baseSteps {
     @When("User select {string} Navigation Item")
     public void userSelectNavigationItem(String item) {
         basePage.selectNavigationMenu(item);
+    }
+
+    @When("Get new lead data from excel file")
+    public void getUserDataFromExcelFile() throws IOException {
+        ExcelHandler.readExcelFile();
+    }
+
+    @And("User click on button with text {string}")
+    public void userClickOnButtonWithText(String buttonText) {
+        basePage.clickOnButtonWithText(buttonText);
+    }
+
+    @When("User select {string} option for {string} select field on web form")
+    public void userSelectValueForSelectField(String option, String selectField) {
+        basePage.selectOptionForSelectorField();
     }
 }

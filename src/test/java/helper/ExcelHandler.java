@@ -3,11 +3,9 @@ package helper;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ExcelHandler {
 
@@ -66,10 +64,10 @@ public class ExcelHandler {
         return getCellValue(cell); // reuse the safe getCellValue() we wrote earlier
     }
 
-    public static HashMap<String,String> readExcelFile() throws IOException {
-        HashMap<String,String> output = new HashMap<>();
+    public static void readExcelFile() throws IOException {
+        HashMap<String, String> output = new HashMap<>();
         // Path to Excel file
-        String filePath = "src/test/resources/data/TestData.xlsx";
+        String filePath = "src/test/resources/data/NewLeadTestData.xlsx";
 
         // Open the Excel file
         FileInputStream fis = new FileInputStream(filePath);
@@ -92,9 +90,9 @@ public class ExcelHandler {
         }
 
         Row row = sheet.getRow(avalableRow);
-        String titleList = "firstname,lastname,mobile,phone,email --> nomail.com,street,zip,city";
+        String titleList = "firstname,lastname,mobile,phone,email --> nomail.com,street,zip,city,interested vehicle,test dealer";
         for (String title : titleList.split(",")) {
-            output.put(title,getCellValueByTitle(row,sheet,title));
+            output.put(title, getCellValueByTitle(row, sheet, title));
         }
 
 //        Cell statusCell = row.getCell(0);
@@ -111,6 +109,6 @@ public class ExcelHandler {
 
         System.out.println("Excel updated successfully!");
 
-        return output;
+        TestContext.addData(output);
     }
 }

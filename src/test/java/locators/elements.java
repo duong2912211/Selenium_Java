@@ -1,7 +1,7 @@
 package locators;
 
 public class elements {
-    //Base
+    //SaleForce Base
     public static final String INPUT_FIELD = "//input[@id='%s' or @name='%s']";
     public static final String TEXT_AREA = "//textarea[@id='%s' or @name='%s']";
     public static final String SELECT_FIELD = "//lightning-base-combobox//button[@aria-label='%s']";
@@ -17,6 +17,7 @@ public class elements {
     public static final String APP_TITLES = "//span[@class='slds-truncate' and @title='%s']";
     public static final String TAB_WITH_TEXT = "//span[@class='slds-truncate' and text()='%s']";
     public static final String MENU = "//span[text()='%s']/ancestor::li[contains(@id,'item')]";
+
     //Login
     public static final String FORGOT_YOUR_PASSWORD_LINK = "//a[@id='forgot_password_link']";
 
@@ -30,4 +31,9 @@ public class elements {
     public static final String NEW_LEAD_CREATION_FORM = "//records-base-record-form";
     public static final String NEW_LEAD_CREATION_SEARCH_FIELD = "//label[text()='%s']/following-sibling::div//input";
     public static final String NEW_LEAD_CREATION_SEARCH_FIELD_OPTION = "//lightning-base-combobox-formatted-text[@title='%s']";
+
+    //Webform
+    public static final String STEP_1_WEB_FORM_TITLE = "//div/h1[text()='%s']/following-sibling::h2[text()='%s']";
+    public static final String STEP_2_WEB_FORM_TITLE = "//div/h1[text()='%s']";
+    public static final String INTEREST_VEHICLE_CHECKBOX = "//label[text()='%s']/following-sibling::button/span";
 }

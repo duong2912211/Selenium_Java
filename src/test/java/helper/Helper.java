@@ -28,8 +28,8 @@ public class Helper {
         }
     }
 
-    public static String convertTextToId(String text){
-        return text.toLowerCase().replace(" ","").trim();
+    public static String convertTextToId(String text) {
+        return text.toLowerCase().replace(" ", "").trim();
     }
 
     public static By byIdIgnoreCaseAndSpaces(String htmlTag, String attribute, String idValue) {
@@ -37,10 +37,10 @@ public class Helper {
         String normalized = idValue.replaceAll("\\s+", "").toLowerCase();
 
         // Create the XPath expression for case-insensitive ID
-        String translateIdToLower = "translate(@"+ attribute +", 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')";
+        String translateIdToLower = "translate(@" + attribute + ", 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')";
 
         // Build the full XPath using the variable
-        String xpath = "//"+ htmlTag +"[" + translateIdToLower + " = '" + normalized + "']";
+        String xpath = "//" + htmlTag + "[" + translateIdToLower + " = '" + normalized + "']";
 
         return By.xpath(xpath);
     }

@@ -2,7 +2,6 @@ package helper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.cucumber.java.Scenario;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,11 +1,9 @@
 package step_definition;
 
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pages.LeadPage;
-import pages.LoginPage;
 import runner.DriverManager;
 
 import java.io.IOException;
@@ -39,7 +37,7 @@ public class leadSteps {
     }
 
     @When("User click on {string} button in New Lead Form")
-    public void userClickOnButtonInNewLeadForm(String button){
+    public void userClickOnButtonInNewLeadForm(String button) {
         leadPage.clickOnButtonInNewLeadForm(button);
     }
 
@@ -50,7 +48,7 @@ public class leadSteps {
 
     @When("User update customer information in New Lead Form")
     public void userUpdateCustomerInformationInNewLeadForm() throws IOException {
-        leadPage.updateNewLeadFormWithExcelData();
+        leadPage.updateNewLeadFormWithData();
     }
 
     @Then("Verify new Leads record created with correct data on Lead listing page")
