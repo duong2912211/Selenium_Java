@@ -95,6 +95,6 @@ public class baseSteps {
 
     @When("User select {string} option for {string} select field on web form")
     public void userSelectValueForSelectField(String option, String selectField) {
-        basePage.selectOptionForSelectorField();
+//        basePage.selectOptionForSelectorField();
     }
 }

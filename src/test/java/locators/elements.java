@@ -33,7 +33,12 @@ public class elements {
     public static final String NEW_LEAD_CREATION_SEARCH_FIELD_OPTION = "//lightning-base-combobox-formatted-text[@title='%s']";
 
     //Webform
-    public static final String STEP_1_WEB_FORM_TITLE = "//div/h1[text()='%s']/following-sibling::h2[text()='%s']";
-    public static final String STEP_2_WEB_FORM_TITLE = "//div/h1[text()='%s']";
-    public static final String INTEREST_VEHICLE_CHECKBOX = "//label[text()='%s']/following-sibling::button/span";
+    public static final String WEB_FORM_TITLE = "//h1[contains(text(),'%s')]";
+    public static final String INTEREST_VEHICLE_CHECKBOX = "//label[normalize-space(text())='%s']/following-sibling::button[@role='radio']";
+    public static final String WEB_FORM_CONFIRM_BUTTON = "//button[@type='submit' and contains(text(),'Weiter')]";
+    public static final String CAR_SELECTED_NAME = "//div[contains(@class,'current-car')]//span[@class='model-name']";
+    public static final String WEB_FORM_INPUT_FIELD = "//label[normalize-space(text())='%s']/following-sibling::input";
+    public static final String SEAT_PARTNER_ADDRESS_SEARCH_FIELD = "//label[normalize-space(.)='SEAT Partner']/following::input[@role='combobox'][1]";
+    public static final String SEAT_PARTNER_ADDRESS_SEARCH_OPTION = "//div[@role='listbox']//div[normalize-space(text())='%s']";
+    public static final String SEAT_PARTNER_OPTION = "//div[@role='radiogroup']//label[.//h1[normalize-space(.)='%s']]";
 }

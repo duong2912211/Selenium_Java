@@ -21,11 +21,6 @@ public class formSteps {
         formPage.navigateToPage("seat_testdrive_webform");
     }
 
-    @Then("Able to see that web form title is {string} {string} visible on page")
-    public void ableToSeeThatWebFormTitleIsVisibleOnPage(String upperTitle, String lowerTitle) {
-        formPage.verifyTestDriveTitle(upperTitle,lowerTitle);
-    }
-
     @Then("Able to see that web form title is {string} visible on page")
     public void ableToSeeThatWebFormTitleIsVisibleOnPage(String title) {
         formPage.verifyTestDriveTitle(title);
@@ -38,7 +33,8 @@ public class formSteps {
 
     @And("User select interested vehicle with excel data")
     public void userSelectInterestedVehicleWithExcelData() {
-        formPage.selectInterestVehicle(TestContext.getAllData().getString("interested vehicle"));
+        String vehicle = formPage.getDataInJsonWithScenarioNumber("interested vehicle");
+        formPage.selectInterestVehicle(vehicle);
     }
 
     @And("User input {string} field in webform with excel data")

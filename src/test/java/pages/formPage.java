@@ -1,6 +1,5 @@
 package pages;
 
-import helper.TestContext;
 import locators.elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -12,12 +11,8 @@ public class formPage extends BasePage {
         super(driver);
     }
 
-    public void verifyTestDriveTitle(String upperTitle, String lowerTitle){
-        verifyElementVisible(By.xpath(String.format(elements.STEP_1_WEB_FORM_TITLE,upperTitle,lowerTitle)));
-    }
-
     public void verifyTestDriveTitle(String title){
-        verifyElementVisible(By.xpath(String.format(elements.STEP_2_WEB_FORM_TITLE,title)));
+        verifyElementVisible(By.xpath(String.format(elements.WEB_FORM_TITLE,title)));
     }
 
     public void selectInterestVehicle(String interestVehicle){
