@@ -55,7 +55,7 @@ public class LeadPage extends BasePage {
         verifyElementVisible(By.xpath(NEW_LEAD_CREATION_FORM));
     }
 
-    public void updateNewLeadFormWithData() throws IOException {
+    public void updateNewLeadFormWithData() {
         enterValueToInputField("firstName", getDataInJsonWithScenarioNumber("firstname"));
         enterValueToInputField("lastName", getDataInJsonWithScenarioNumber("lastname"));
         enterValueToInputField("MobilePhone", getDataInJsonWithScenarioNumber("mobile"));
@@ -70,7 +70,7 @@ public class LeadPage extends BasePage {
 
     }
 
-    public void verifyNewRecordShowOnLeadListingPage() throws IOException, InterruptedException {
+    public void verifyNewRecordShowOnLeadListingPage() throws InterruptedException {
         //Read the current data used to create Leads
         //Get the expected Full Name of Leads
         String expectedName = getDataInJsonWithScenarioNumber("firstname") + " " + getDataInJsonWithScenarioNumber("lastname");

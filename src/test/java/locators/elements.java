@@ -35,10 +35,10 @@ public class elements {
     //Webform
     public static final String WEB_FORM_TITLE = "//h1[contains(text(),'%s')]";
     public static final String INTEREST_VEHICLE_CHECKBOX = "//label[normalize-space(text())='%s']/following-sibling::button[@role='radio']";
-    public static final String WEB_FORM_CONFIRM_BUTTON = "//button[@type='submit' and contains(text(),'Weiter')]";
     public static final String CAR_SELECTED_NAME = "//div[contains(@class,'current-car')]//span[@class='model-name']";
     public static final String WEB_FORM_INPUT_FIELD = "//label[normalize-space(text())='%s']/following-sibling::input";
-    public static final String SEAT_PARTNER_ADDRESS_SEARCH_FIELD = "//label[normalize-space(.)='SEAT Partner']/following::input[@role='combobox'][1]";
+    public static final String SEAT_PARTNER_ADDRESS_SEARCH_FIELD = "//input[@placeholder='PLZ, Stadt oder Name']";
     public static final String SEAT_PARTNER_ADDRESS_SEARCH_OPTION = "//div[@role='listbox']//div[normalize-space(text())='%s']";
     public static final String SEAT_PARTNER_OPTION = "//div[@role='radiogroup']//label[.//h1[normalize-space(.)='%s']]";
+    public static final String WEB_FORM_CONSENT_CHECK_BOX = "//label[text()='%s']/../preceding-sibling::button[@role='checkbox']";
 }
