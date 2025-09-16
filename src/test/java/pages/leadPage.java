@@ -4,37 +4,22 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import java.io.IOException;
 import java.util.Objects;
 
 import static helper.PhoneDE.equalsIgnoringFormatting;
 import static locators.elements.*;
 
-public class LeadPage extends BasePage {
+public class leadPage extends BasePage {
 
-    public LeadPage(WebDriver driver) {
+    public leadPage(WebDriver driver) {
         super(driver);
     }
 
-    public void clickQuickActionButtonOnLeadPage(String buttonName) {
-        By button = By.xpath(String.format(QUICK_ACTION_BUTTON, buttonName));
-        verifyElementClickable(button);
-        click(button);
-    }
-
     public void verifyNewLeadTypeSelectFormVisible() {
-        verifyElementVisible(By.xpath(String.format(NEW_LEAD_TYPE_SELECT_FORM_CHECKBOX, "Testdrive Lead")));
-        verifyElementVisible(By.xpath(String.format(NEW_LEAD_TYPE_SELECT_FORM_CHECKBOX, "Fleet Lead")));
-        verifyElementVisible(By.xpath(String.format(NEW_LEAD_TYPE_SELECT_FORM_CHECKBOX, "Unqualified Lead")));
-        verifyElementVisible(By.xpath(String.format(NEW_LEAD_TYPE_SELECT_FORM_CHECKBOX, "User Chooser")));
-    }
-
-    public void clickOnNewLeadTypeSelectCheckBox(String type) {
-        click(By.xpath(String.format(NEW_LEAD_TYPE_SELECT_FORM_CHECKBOX, type)));
-    }
-
-    public void clickOnButtonInNewLeadSelectTypeForm(String button) {
-        click(By.xpath(String.format(NEW_LEAD_TYPE_SELECT_FORM_BUTTON, button)));
+        verifyElementVisible(By.xpath(String.format(NEW_RECORD_TYPE_SELECT_FORM_CHECKBOX, "Testdrive Lead")));
+        verifyElementVisible(By.xpath(String.format(NEW_RECORD_TYPE_SELECT_FORM_CHECKBOX, "Fleet Lead")));
+        verifyElementVisible(By.xpath(String.format(NEW_RECORD_TYPE_SELECT_FORM_CHECKBOX, "Unqualified Lead")));
+        verifyElementVisible(By.xpath(String.format(NEW_RECORD_TYPE_SELECT_FORM_CHECKBOX, "User Chooser")));
     }
 
     public void clickOnButtonInNewLeadForm(String buttonText) {
@@ -52,7 +37,7 @@ public class LeadPage extends BasePage {
         verifyElementVisible(formTitle);
         Assert.assertEquals("New Lead: " + formType, getText(formTitle));
 
-        verifyElementVisible(By.xpath(NEW_LEAD_CREATION_FORM));
+        verifyElementVisible(By.xpath(NEW_RECORD_CREATION_FORM));
     }
 
     public void updateNewLeadFormWithData() {
@@ -86,7 +71,7 @@ public class LeadPage extends BasePage {
         Thread.sleep(3000);
 
         //Verify number and records match with new lead full name
-        By leadListingTable = By.xpath(LEAD_LISTING_TABLE);
+        By leadListingTable = By.xpath(RECORD_LISTING_TABLE);
 
         if (verifyElementVisible(leadListingTable)) {
             //Get the maximum records on the listing page

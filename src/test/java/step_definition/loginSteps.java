@@ -2,16 +2,16 @@ package step_definition;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import pages.LoginPage;
+import pages.loginPage;
 import runner.ConfigReader;
 import runner.DriverManager;
 
 public class loginSteps {
 
-    private final LoginPage loginPage;
+    private final loginPage loginPage;
 
     public loginSteps() {
-        this.loginPage = new LoginPage(DriverManager.getDriver());
+        this.loginPage = new loginPage(DriverManager.getDriver());
     }
 
     @Given("User access to Login page")

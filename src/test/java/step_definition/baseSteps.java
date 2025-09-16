@@ -97,4 +97,25 @@ public class baseSteps {
     public void userSelectValueForSelectField(String option, String selectField) {
 //        basePage.selectOptionForSelectorField();
     }
+
+    @When("User click on {string} button on Saleforce page")
+    public void userClickOnQuickActionButtonOnLeadsPage(String buttonName) {
+        basePage.clickQuickActionButton(buttonName);
+    }
+
+    @When("User click on {string} New record type select check box")
+    public void userClickOnNewLeadTypeCheckBox(String type) {
+        basePage.clickOnNewRecordTypeSelectCheckBox(type);
+    }
+
+    @And("User click on {string} button in New record type select Form")
+    public void userClickOnButtonInNewLeadTypeSelectForm(String button) {
+        basePage.clickOnButtonInNewRecordSelectTypeForm(button);
+    }
+
+    @When("User click on record with name {string}")
+    public void userClickOnRecordWithName(String arg0) {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
 }

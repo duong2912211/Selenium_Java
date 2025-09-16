@@ -85,6 +85,7 @@ public abstract class BasePage {
 
     public void selectOptionForSelectorField(String fieldName, String optionText) {
         By selectField = By.xpath(String.format(SELECT_FIELD, fieldName));
+        scrollToElement(selectField);
         click(selectField);
 
         By option = By.xpath(String.format(SELECT_FIELD_OPTION, fieldName, optionText));
@@ -184,4 +185,58 @@ public abstract class BasePage {
         JSONObject dataList = TestContext.getAllData();
         return dataList.getJSONObject(Hooks.scenarioNumberialOrder).getString(key);
     }
+
+    public void clickQuickActionButton(String buttonName) {
+        By button = By.xpath(String.format(QUICK_ACTION_BUTTON, buttonName));
+        verifyElementClickable(button);
+        click(button);
+    }
+
+    public void clickOnNewRecordTypeSelectCheckBox(String type) {
+        click(By.xpath(String.format(NEW_RECORD_TYPE_SELECT_FORM_CHECKBOX, type)));
+    }
+
+    public void clickOnButtonInNewRecordSelectTypeForm(String button) {
+        click(By.xpath(String.format(NEW_RECORD_TYPE_SELECT_FORM_BUTTON, button)));
+    }
+
+    public void verifyRecordTitle(String recordType,String recordName){
+        var recordTypeLabel = driver.findElements(By.xpath(RECORD_TITLES_TYPE));
+
+        WebElement visibleRecordTypeLabel= recordTypeLabel.stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .orElse(null);
+
+        if (visibleRecordTypeLabel != null) {
+            System.out.println(visibleRecordTypeLabel.getText());
+            Assert.assertEquals(recordType,visibleRecordTypeLabel.getText());
+        }
+
+        var recordNameLabel = driver.findElements(By.xpath(RECORD_TITLES_NAME));
+
+        WebElement visibleRecordNameLabel= recordNameLabel.stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .orElse(null);
+
+        if (visibleRecordNameLabel != null) {
+            System.out.println(visibleRecordNameLabel.getText());
+            Assert.assertEquals(recordName,visibleRecordNameLabel.getText());
+        }
+    }
+
+//    public void verifySecondaryFieldInRecord(String secondaryFieldName, String secondaryFieldData){
+//        var recordTypeLabel = driver.findElements(By.xpath(RECORD_TITLES_TYPE));
+//
+//        WebElement visibleRecordTypeLabel= recordTypeLabel.stream()
+//                .filter(WebElement::isDisplayed)
+//                .findFirst()
+//                .orElse(null);
+//
+//        if (visibleRecordTypeLabel != null) {
+//            System.out.println(visibleRecordTypeLabel.getText());
+//            Assert.assertEquals(recordType,visibleRecordTypeLabel.getText());
+//        }
+//    }
 }

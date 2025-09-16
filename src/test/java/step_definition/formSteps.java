@@ -1,8 +1,5 @@
 package step_definition;
 
-import helper.TestContext;
-import io.cucumber.java.PendingException;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -42,7 +39,7 @@ public class formSteps {
 
     // --- Input fields ---
     @When("User input {string} field in webform with excel data")
-    public void userInputFieldInWebformWithExcelData(String field) {
+    public void userInputFieldInWebformWithExcelData(String field) throws InterruptedException {
         formPage.enterValueToInputFieldInWebForm(field);
     }
 

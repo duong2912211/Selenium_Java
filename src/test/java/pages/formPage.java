@@ -6,11 +6,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.Objects;
 
 public class formPage extends BasePage {
+
+    private static final Logger log = LoggerFactory.getLogger(formPage.class);
 
     public formPage(WebDriver driver) {
         super(driver);
@@ -27,7 +31,7 @@ public class formPage extends BasePage {
     }
 
     // --- Input fields ---
-    public void enterValueToInputFieldInWebForm(String field) {
+    public void enterValueToInputFieldInWebForm(String field) throws InterruptedException {
         // map German label -> JSON key
         String fieldName = switch (field) {
             case "Vorname" -> "firstname";
@@ -47,8 +51,19 @@ public class formPage extends BasePage {
 
         inputField.clear();
         inputField.click();
+
         System.out.println(getDataInJsonWithScenarioNumber(fieldName));
-        inputField.sendKeys(getDataInJsonWithScenarioNumber(fieldName));
+
+        if(fieldName.equals("phone")){
+            String phoneData = getDataInJsonWithScenarioNumber(fieldName).replace(" ","").replaceAll("\\(", "").replaceAll("\\)", "").trim();
+            for (int i = 0; i< phoneData.length(); i++){
+                Thread.sleep(400);
+                inputField.sendKeys(String.valueOf(phoneData.charAt(i)));
+            }
+        }
+        else {
+            inputField.sendKeys(getDataInJsonWithScenarioNumber(fieldName));
+        }
     }
 
     // --- SEAT Partner search ---
