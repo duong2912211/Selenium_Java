@@ -16,7 +16,7 @@ public class PhoneDE {
         try {
             PhoneNumber n = UTIL.parse(cleaned, "DE");
             if (!UTIL.isValidNumberForRegion(n, "DE")) throw new IllegalArgumentException("Invalid DE number: " + raw);
-            return UTIL.format(n, PhoneNumberFormat.INTERNATIONAL);             // -> "+49 641 7468838"
+            return formatPhoneNumber(UTIL.format(n, PhoneNumberFormat.INTERNATIONAL));             // -> "+49 641 7468838"
         } catch (NumberParseException e) {
             throw new IllegalArgumentException("Cannot parse: " + raw, e);
         }
@@ -30,10 +30,23 @@ public class PhoneDE {
         try {
             PhoneNumber n = UTIL.parse(cleaned, "DE");
             if (!UTIL.isValidNumberForRegion(n, "DE")) throw new IllegalArgumentException("Invalid DE number: " + raw);
-            return UTIL.format(n, PhoneNumberFormat.E164);                      // -> "+496417468838"
+            return formatPhoneNumber(UTIL.format(n, PhoneNumberFormat.E164));                      // -> "+49 6417 468838"
         } catch (NumberParseException e) {
             throw new IllegalArgumentException("Cannot parse: " + raw, e);
         }
+    }
+
+    public static String formatPhoneNumber(String phoneNumber) {
+        // Remove any existing spaces
+        String cleaned = phoneNumber.replaceAll("\\s+", "");
+
+        // Format: +49 9564 3023188
+        if (cleaned.startsWith("+49")) {
+            return cleaned.substring(0, 3) + " " +
+                    cleaned.substring(3, 7) + " " +
+                    cleaned.substring(7);
+        }
+        return phoneNumber; // Return original if doesn't match pattern
     }
 
     // Convenience: compare two inputs regardless of how they’re written

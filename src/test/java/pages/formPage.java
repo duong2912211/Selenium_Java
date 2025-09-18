@@ -1,5 +1,6 @@
 package pages;
 
+import helper.Helper;
 import locators.elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.HexFormat;
 import java.util.Objects;
 
 public class formPage extends BasePage {
@@ -57,7 +59,7 @@ public class formPage extends BasePage {
         if(fieldName.equals("phone")){
             String phoneData = getDataInJsonWithScenarioNumber(fieldName).replace(" ","").replaceAll("\\(", "").replaceAll("\\)", "").trim();
             for (int i = 0; i< phoneData.length(); i++){
-                Thread.sleep(400);
+                Helper.pause(1);
                 inputField.sendKeys(String.valueOf(phoneData.charAt(i)));
             }
         }

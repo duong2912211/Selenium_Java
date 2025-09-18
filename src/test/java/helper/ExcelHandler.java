@@ -90,7 +90,7 @@ public class ExcelHandler {
         }
 
         Row row = sheet.getRow(avalableRow);
-        String titleList = "firstname,lastname,mobile,phone,email --> nomail.com,street,zip,city,interested vehicle,test dealer";
+        String titleList = "firstname,lastname,mobile,phone,email --> nomail.com,street,zip,city,vehicle interest,test dealer";
         for (String title : titleList.split(",")) {
             output.put(title, getCellValueByTitle(row, sheet, title));
         }

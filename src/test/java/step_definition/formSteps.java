@@ -33,7 +33,7 @@ public class formSteps {
 
     @When("User select interested vehicle with excel data")
     public void userSelectInterestedVehicleWithExcelData() {
-        String vehicle = formPage.getDataInJsonWithScenarioNumber("interested vehicle");
+        String vehicle = formPage.getDataInJsonWithScenarioNumber("vehicle interest");
         formPage.selectInterestVehicle(vehicle);
     }
 

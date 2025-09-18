@@ -1,5 +1,6 @@
 package step_definition;
 
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -37,7 +38,32 @@ public class leadSteps {
     }
 
     @Then("Verify new Leads record created with correct data on Lead listing page")
-    public void verifyNewLeadsRecordCreatedWithCorrectDataOnLeadListingPage() throws InterruptedException {
+    public void verifyNewLeadsRecordCreatedWithCorrectDataOnLeadListingPage() {
         leadPage.verifyNewRecordShowOnLeadListingPage();
+    }
+
+    @And("Able to see Lead Partner Info is {string}")
+    public void ableToSeePartnerInfoIs(String partnerInfo) {
+        leadPage.verifyPartnerInformation(partnerInfo);
+    }
+
+    @And("Able to see Lead Contact Information have correct data with excel data")
+    public void ableToSeeContactInformationHaveCorrectDataWithExcelData() {
+        leadPage.verifyLeadContactInformationWithExcelData();
+    }
+
+    @And("Able to see Lead Vehicle Information have correct data with excel data")
+    public void ableToSeeLeadVehicleInformationHaveCorrectDataWithExcelData() {
+        leadPage.verifyLeadVehicleInformationWithExcelData();
+    }
+
+    @And("Able to see Lead Lead Information have correct data with excel data")
+    public void ableToSeeLeadLeadInformationHaveCorrectDataWithExcelData() {
+        leadPage.verifyLeadInformationWithExcelData();
+    }
+
+    @And("Able to see Lead Dealer Information have correct data with excel data")
+    public void ableToSeeLeadDealerInformationHaveCorrectDataWithExcelData() {
+        leadPage.verifyLeadDealerInformationWithExcelData();
     }
 }

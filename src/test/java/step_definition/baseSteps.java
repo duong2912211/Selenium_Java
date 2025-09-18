@@ -1,6 +1,7 @@
 package step_definition;
 
 import helper.ExcelHandler;
+import helper.Helper;
 import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -70,7 +71,7 @@ public class baseSteps {
 
     @When("Wait for {int} seconds")
     public void iWaitForSeconds(int seconds) throws InterruptedException {
-        Thread.sleep(seconds * 1000L);
+        Helper.pause(seconds);
     }
 
     @When("User click on Show Navigation Menu icon")
@@ -86,6 +87,26 @@ public class baseSteps {
     @When("Get new lead data from excel file")
     public void getUserDataFromExcelFile() throws IOException {
         ExcelHandler.readExcelFile();
+    }
+
+    @When("User click on record new create with excel data")
+    public void userClickOnRecordNewCreateWithExcelData() {
+        String recordName = basePage.getDataInJsonWithScenarioNumber("firstname") + " " + basePage.getDataInJsonWithScenarioNumber("lastname");
+        basePage.clickOnRecordOnListingTable(recordName);
+    }
+
+    @Then("Able to see {string} record have correct name with excel data")
+    public void ableToSeeRecordHaveCorrectNameWithExcelData(String recordType) {
+        String recordName = basePage.getDataInJsonWithScenarioNumber("firstname") + " " + basePage.getDataInJsonWithScenarioNumber("lastname");
+        basePage.verifyRecordTitle(recordType,recordName);
+    }
+
+    @And("Able to see secondary field {string} data similar with excel data")
+    public void ableToSeeSecondaryFieldDataSimilarWithExcelData(String secondaryFieldTitle) {
+        String[] titleList = secondaryFieldTitle.split(",");
+        for (String title : titleList) {
+            basePage.verifySecondaryFieldData(title);
+        }
     }
 
     @And("User click on button with text {string}")
@@ -113,9 +134,13 @@ public class baseSteps {
         basePage.clickOnButtonInNewRecordSelectTypeForm(button);
     }
 
+    @When("User switch to filter {string}")
+    public void userSwitchToFilter(String filterName){
+        basePage.switchFilterWithName(filterName);
+    }
+
     @When("User click on record with name {string}")
-    public void userClickOnRecordWithName(String arg0) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
+    public void userClickOnRecordWithName(String recordName) {
+        basePage.clickOnRecordOnListingTable(recordName);
     }
 }
