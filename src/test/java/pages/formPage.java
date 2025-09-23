@@ -33,7 +33,7 @@ public class formPage extends BasePage {
     }
 
     // --- Input fields ---
-    public void enterValueToInputFieldInWebForm(String field) throws InterruptedException {
+    public void enterValueToInputFieldInWebForm(String field) {
         // map German label -> JSON key
         String fieldName = switch (field) {
             case "Vorname" -> "firstname";
@@ -59,7 +59,7 @@ public class formPage extends BasePage {
         if(fieldName.equals("phone")){
             String phoneData = getDataInJsonWithScenarioNumber(fieldName).replace(" ","").replaceAll("\\(", "").replaceAll("\\)", "").trim();
             for (int i = 0; i< phoneData.length(); i++){
-                Helper.pause(1);
+                Helper.pause(0.5);
                 inputField.sendKeys(String.valueOf(phoneData.charAt(i)));
             }
         }

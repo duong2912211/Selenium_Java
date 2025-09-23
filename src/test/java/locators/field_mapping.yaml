@@ -1,0 +1,15 @@
+field_mappings:
+  "Contact Information":
+    Name:
+      xpath: "CONTACT_NAME_FIELD"
+      component: "lightning-formatted-name"
+      dataSource: "excel"
+    Mobile:
+      xpath: "CONTACT_MOBILE_FIELD"
+      component: "phone-link"
+      dataSource: "excel"
+    "Lead Record Type":
+      xpath: "CONTACT_RECORD_TYPE_FIELD"
+      component: "text"
+      dataSource: "fixed"
+      value: "Unqualified Lead"

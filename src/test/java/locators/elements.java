@@ -20,12 +20,12 @@ public class elements {
 
     public static final String LISTING_TABLE_RECORD_NAME = "//tr//th[@data-label='Name']//slot/span[text()='%s']";
 
-    // <editor-fold desc="SF Record">
-    // Record titles
+    // <editor-fold desc="===================================SF Record================================================">
+    //---------------------------------------------------TITLE----------------------------------------------------------
     public static final String RECORD_TITLES_TYPE = "//slot[@name='entityLabel']/records-entity-label";
-    public static final String RECORD_TITLES_NAME= "//slot[@name='primaryField']/lightning-formatted-name";
+    public static final String RECORD_TITLES_NAME = "//slot[@name='primaryField']/lightning-formatted-name";
 
-    //Record highlight details
+    //----------------------------------------------HIGHLIGHT DETAILS---------------------------------------------------
     public static final String RECORD_HIGHLIGHTED_DETAILS_VEHICLE = "//p[@title='Vehicle Interest']/..//p[contains(@class, 'fieldComponent')]//span[text()='%s']";
     public static final String RECORD_HIGHLIGHTED_DETAILS_DEALER = "//p[@title='Dealer IM']/..//lightning-formatted-text[text()='%s']";
     public static final String PHONE_EXPAND_BTN = "//button[@title='Show more phone numbers']";
@@ -33,37 +33,36 @@ public class elements {
     public static final String RECORD_HIGHLIGHTED_DETAILS_MOBILE = "//p[@title='Mobile']/..//a[text()='%s']";
     public static final String RECORD_HIGHLIGHTED_DETAILS_EMAIL = "//p[@title='Email']/..//a[text()='%s']";
 
-    //Record details part
+    //---------------------------------------------Record details part--------------------------------------------------
     public static final String PARTNER_INFO_VALUE = "//span[@class='test-id__field-label'][text()='Partner Info:']/../..//lightning-formatted-text[text()='%s']";
 
+    //--------------------------------------------------HEADER----------------------------------------------------------
+    // Generic section header pattern
+    public static final String SECTION_HEADER = "//span[@class='test-id__section-header-title'][text()='%s']";
+    public static final String SECTION_EXPAND_BUTTON = "//span[text()='%s']/parent::button";
+    public static final String SECTION_CHEVRON_ICON = "//span[text()='%s']/preceding-sibling::span//lightning-icon[@icon-name='utility:chevrondown']";
+
+    // Check if section is expanded/collapsed by aria-expanded attribute
+    public static final String SECTION_EXPANDED_STATUS = "//span[text()='%s']/parent::button[@aria-expanded='%s']";
+
+    //---------------------------------------------------FIELD----------------------------------------------------------
     // Edit Button XPaths for Editable Fields
     public static final String EDIT_BUTTON_GENERIC = "//button[@title='Edit %s']";
     public static final String CHANGE_RECORD_TYPE_BUTTON = "//lightning-button-icon[contains(@class,'changeRecordTypeLink')]";
 
+    // Generic pattern for lightning-formatted-text fields
+    public static final String LIGHTNING_TEXT_FIELD = "//span[text()='%s']/../following-sibling::*//lightning-formatted-text[text()='%s']";
+
+    // Generic pattern for href-based fields (phone/email)
+    public static final String HREF_FIELD = "//span[@class='test-id__field-label'][text()='%s']/../..//a[@href='%s']";
+
+    // Generic pattern for force-lookup fields
+    public static final String FORCE_LOOKUP_FIELD = "//span[text()='%s']/../following-sibling::*//force-lookup//span[text()='%s']";
+
     // Record details Contact Information
-    public static final String CONTACT_NAME_FIELD = "//span[@class='test-id__field-label'][text()='Name']/../..//lightning-formatted-name[text()='%s']";
-    public static final String CONTACT_RECORD_TYPE_FIELD = "//span[@class='test-id__field-label'][text()='Lead Record Type']/../..//span[text()='%s']";
-    public static final String CONTACT_MOBILE_FIELD = "//span[@class='test-id__field-label'][text()='Mobile']/../..//a[@href='tel:%s']";
-    public static final String CONTACT_CUSTOMER_TYPE_FIELD = "//span[@class='test-id__field-label'][text()='Customer Type']/../..//lightning-formatted-text[text()='%s']";
-    public static final String CONTACT_PHONE_FIELD = "//span[@class='test-id__field-label'][text()='Phone']/../..//a[@href='tel:%s']";
-    public static final String CONTACT_EMAIL_FIELD = "//span[@class='test-id__field-label'][text()='Email']/../..//a[@href='mailto:%s']";
-    public static final String CONTACT_ADDRESS_FIELD = "//span[text()='Address']/../..//div[text()='%s']";
-
-    // Record details Vehicle Information
-    public static final String VEHICLE_INTEREST_FIELD = "//span[text()='Vehicle Interest']/../..//force-lookup//span[text()='%s']";
-    public static final String NEW_USED_FIELD = "//span[text()='New / Used']/../..//lightning-formatted-text[text()='%s']";
-
-    // Record details Lead Information
-    public static final String LEAD_OWNER_FIELD = "//span[text()='Lead Owner']/..//force-lookup//span[contains(text(),'%s')]";
-    public static final String LEAD_STATUS_FIELD = "//span[text()='Lead Status']/..//lightning-formatted-text[text()='%s']";
-    public static final String SOURCE_FIELD = "//span[text()='Source']/..//lightning-formatted-text[text()='%s']";
-    public static final String REQUEST_FIELD = "//span[text()='Request']/..//lightning-formatted-text[text()='%s']";
-    public static final String CALLS_NOT_REACHED_FIELD = "//span[text()='Calls Lead Not Reached']/..//lightning-formatted-number[text()='%s']";
-    public static final String OPPORTUNITY_UID_FIELD = "//span[text()='Opportunity UID']/..//lightning-formatted-text[text()='%s']";
-    public static final String FOLLOW_UP_FIELD = "//span[text()='Follow-Up']/..//lightning-formatted-text[text()='%s']";
-
-    // Record details Vehicle Information
-    public static final String DEALER_FIELD = "//span[text()='Dealer']/../..//force-lookup//span[text()='%s']";
+    public static final String CONTACT_NAME_FIELD = "//span[@class='test-id__field-label'][text()='%s']/../..//lightning-formatted-name[text()='%s']";
+    public static final String CONTACT_RECORD_TYPE_FIELD = "//span[@class='test-id__field-label'][text()='%s']/../..//span[text()='%s']";
+    public static final String CONTACT_ADDRESS_FIELD = "//span[text()='%s']/../..//div[text()='%s']";
     // </editor-fold>
 
     //Home

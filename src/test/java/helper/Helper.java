@@ -45,13 +45,12 @@ public class Helper {
         return By.xpath(xpath);
     }
 
-    public static void pause(int seconds) {
+    public static void pause(double seconds) {
         try {
-            Thread.sleep(seconds * 1000L); // convert sec → ms
+            Thread.sleep((long) (seconds * 1000L)); // convert sec → ms
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException(e);
         }
     }
-
 }

@@ -143,4 +143,9 @@ public class baseSteps {
     public void userClickOnRecordWithName(String recordName) {
         basePage.clickOnRecordOnListingTable(recordName);
     }
+
+    @When("User open new tab")
+    public void userOpenNewTab() {
+        basePage.openNewTab();
+    }
 }

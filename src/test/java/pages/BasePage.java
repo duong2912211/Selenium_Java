@@ -12,6 +12,7 @@ import runner.ConfigReader;
 import runner.Hooks;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import static locators.elements.*;
@@ -182,28 +183,20 @@ public abstract class BasePage {
      * Checks if an element is visible.
      *
      * @param locator By locator of the element
-     * @return true if visible, false otherwise
+     * assert true if visible, false otherwise
      */
-    public boolean verifyElementVisible(By locator) {
-        try {
-            return waitForElementToBeVisible(locator).isDisplayed();
-        } catch (TimeoutException e) {
-            return false;
-        }
+    public void verifyElementVisible(By locator) {
+        Assert.assertTrue(waitForElementToBeVisible(locator).isDisplayed());
     }
 
     /**
      * Checks if an element is clickable.
      *
      * @param locator By locator of the element
-     * @return true if clickable, false otherwise
+     * Assert true if clickable, false otherwise
      */
-    public boolean verifyElementClickable(By locator) {
-        try {
-            return waitForElementToBeClickable(locator).isDisplayed();
-        } catch (TimeoutException e) {
-            return false;
-        }
+    public void verifyElementClickable(By locator) {
+        Assert.assertTrue(waitForElementToBeClickable(locator).isDisplayed());
     }
 
     /**
@@ -253,6 +246,23 @@ public abstract class BasePage {
     public void scrollToElement(By locator) {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
+    public void openNewTab(){
+        // Open new tab
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.open();");
+
+        // Switch to the new tab
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.getLast()); // Switch to second tab (index 1)
+    }
+
+    public void switchToTab(WebDriver driver, int tabIndex) {
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        if (tabIndex < tabs.size()) {
+            driver.switchTo().window(tabs.get(tabIndex));
+        }
     }
     // </editor-fold>
 
@@ -400,16 +410,9 @@ public abstract class BasePage {
                 elementXpath = String.format(RECORD_HIGHLIGHTED_DETAILS_DEALER, getDataInJsonWithScenarioNumber(jsonFieldName));
                 break;
             default:
-                jsonFieldName = "";
                 elementXpath = "";
         }
-
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//        WebElement ad = driver.findElement(By.xpath(elementXpath));
-//        Assert.assertTrue(ad.isDisplayed());
-//
-        boolean isVisible = verifyElementVisible(By.xpath(elementXpath));
-        Assert.assertTrue( "Element is not visible: " + elementXpath,isVisible);
+        verifyElementVisible(By.xpath(elementXpath));
     }
 
     // </editor-fold>
@@ -435,20 +438,4 @@ public abstract class BasePage {
         JSONObject dataList = TestContext.getAllData();
         return dataList.getJSONObject(Hooks.scenarioNumberialOrder).getString(key);
     }
-
-
-
-//    public void verifySecondaryFieldInRecord(String secondaryFieldName, String secondaryFieldData){
-//        var recordTypeLabel = driver.findElements(By.xpath(RECORD_TITLES_TYPE));
-//
-//        WebElement visibleRecordTypeLabel= recordTypeLabel.stream()
-//                .filter(WebElement::isDisplayed)
-//                .findFirst()
-//                .orElse(null);
-//
-//        if (visibleRecordTypeLabel != null) {
-//            System.out.println(visibleRecordTypeLabel.getText());
-//            Assert.assertEquals(recordType,visibleRecordTypeLabel.getText());
-//        }
-//    }
 }
