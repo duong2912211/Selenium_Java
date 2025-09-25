@@ -148,4 +148,31 @@ public class baseSteps {
     public void userOpenNewTab() {
         basePage.openNewTab();
     }
+
+    @When("User click on {string} tab in record overview")
+    public void userClickOnTabInRecordOverview(String tabName) {
+        basePage.clickOnTabInRecordPage(tabName);
+    }
+
+    @Then("Able to see that {string} tab is selected in record overview")
+    public void ableToSeeThatTabIsSelectedInRecordOverview(String tabName) {
+        basePage.verifyTabSelectedInRecordPage(tabName);
+    }
+
+    @And("Wait until new record created on SF")
+    public void waitUntilNewRecordCreatedOnSF() {
+        basePage.waitForBackendProcessCompletion();
+    }
+
+    @And("User select {string} filter")
+    public void userSelectFilter(String filterName) {
+        basePage.switchFilterWithName(filterName);// Write code here that turns the phrase above into concrete actions
+    }
+
+    @And("User search for {string} record field")
+    public void userInputIntoSearchRecordField(String object) {
+        //Search for new lead record name
+        String recordName = basePage.getDataInJsonWithScenarioNumber("firstname") + " " + basePage.getDataInJsonWithScenarioNumber("lastname");
+        basePage.searchRecordWithName(object, recordName);
+    }
 }

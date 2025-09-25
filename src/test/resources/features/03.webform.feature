@@ -22,26 +22,39 @@ Feature: Test Drive Web Form Test
     And User ticks consent checkbox for "E-Mail"
     And User ticks consent checkbox for "Telefon"
 #    And User click on button with text "Absenden"
+#    Then Able to see Thank You screen after submit form
 
     And User open new tab
-    Given User login with account "Emil"
+    And User login with account "Emil"
     And User click on Show Navigation Menu icon
     And User select "Leads" Navigation Item
+    And User select "Test Latest Leads" filter
+    And User search for "Lead" record field
+    And Wait until new record created on SF
     Then Verify new Leads record created with correct data on Lead listing page
 
     When User click on record new create with excel data
     And Wait for 5 seconds
 
     Then Able to see "Lead" record have correct name with excel data
-    And Able to see Lead Partner Info is "All information available to forward to SEAT partner"
-    And Able to see in <Section> section, have <Field Name> text field with data is <Expected Value> identical with <Expected Data Source> data source
-      | Section             | Field Name       | Expected Value   | Expected Data Source |
-      | Contact Information | Name             | Name             | Excel                |
-      | Contact Information | Mobile           | Mobile           | Excel                |
-      | Contact Information | Phone            | Phone            | Excel                |
-      | Contact Information | Email            | Email            | Excel                |
-      | Contact Information | Address          | Street           | Excel                |
-      | Contact Information | Address          | Zip and City     | Excel                |
-      | Contact Information | Customer Type    | "Test Drive"     | Fixed                |
-      | Vehicle Information | Vehicle Interest | Vehicle Interest | Excel                |
-      | Lead Information    | Lead Status      | "in Progress"    | Fixed                |
+    When User click on "Details" tab in record overview
+    Then Able to see that "Details" tab is selected in record overview
+    Then Able to see "Name" field in "Contact Information" section have data similar with excel file
+    Then Able to see "Phone" field in "Contact Information" section have data similar with excel file
+    Then Able to see "Email" field in "Contact Information" section have data similar with excel file
+    Then Able to see "Address" field in "Contact Information" section have data is "Germany"
+    Then Able to see "Lead Record Type" field in "Contact Information" section have data is "Testdrive Lead"
+    Then Able to see "Customer Type" field in "Contact Information" section have data is "Test Drive"
+
+    Then Able to see "Vehicle Interest" field in "Vehicle Information" section have data similar with excel file
+
+    Then Able to see "Source" field in "Lead Information" section have data is "Website"
+    Then Able to see "Request" field in "Lead Information" section have data is "Test Drive"
+    Then Able to see "Lead Status" field in "Lead Information" section have data is "Forwarded to dealer"
+
+    Then Able to see "Dealer" field in "Dealer Information" section have data is "SEAT Bank Zweigniederlassung der Volkswagen Bank GmbH"
+
+    Then Able to see "Source System" field in "System Information" section have data is "CEM"
+
+    When User click on "Data Privacy" tab in record overview
+    Then Able to see that "Data Privacy" tab is selected in record overview

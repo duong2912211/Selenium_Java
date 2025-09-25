@@ -35,7 +35,7 @@ public class elements {
 
     //---------------------------------------------Record details part--------------------------------------------------
     public static final String PARTNER_INFO_VALUE = "//span[@class='test-id__field-label'][text()='Partner Info:']/../..//lightning-formatted-text[text()='%s']";
-
+    public static final String TAB_IN_RECORD_PAGE = "//a[text()='%s']/parent::li[@part='tab-item']";
     //--------------------------------------------------HEADER----------------------------------------------------------
     // Generic section header pattern
     public static final String SECTION_HEADER = "//span[@class='test-id__section-header-title'][text()='%s']";
@@ -55,13 +55,15 @@ public class elements {
 
     // Generic pattern for href-based fields (phone/email)
     public static final String HREF_FIELD = "//span[@class='test-id__field-label'][text()='%s']/../..//a[@href='%s']";
+    public static final String PHONE_HREF_FIELD = "//span[@class='test-id__field-label'][text()='%s']/../..//a[@href='tel:%s']";
+    public static final String MAIL_HREF_FIELD = "//span[@class='test-id__field-label'][text()='%s']/../..//a[@href='mailto:%s']";
 
     // Generic pattern for force-lookup fields
     public static final String FORCE_LOOKUP_FIELD = "//span[text()='%s']/../following-sibling::*//force-lookup//span[text()='%s']";
 
     // Record details Contact Information
-    public static final String CONTACT_NAME_FIELD = "//span[@class='test-id__field-label'][text()='%s']/../..//lightning-formatted-name[text()='%s']";
-    public static final String CONTACT_RECORD_TYPE_FIELD = "//span[@class='test-id__field-label'][text()='%s']/../..//span[text()='%s']";
+    public static final String CONTACT_NAME_FIELD = "//span[@class='test-id__field-label'][text()='Name']/../..//lightning-formatted-name[text()='%s']";
+    public static final String CONTACT_RECORD_TYPE_FIELD = "//span[@class='test-id__field-label'][text()='Lead Record Type']/../..//span[text()='%s']";
     public static final String CONTACT_ADDRESS_FIELD = "//span[text()='%s']/../..//div[text()='%s']";
     // </editor-fold>
 
@@ -89,4 +91,5 @@ public class elements {
     public static final String SEAT_PARTNER_ADDRESS_SEARCH_OPTION = "//div[@role='listbox']//div[normalize-space(text())='%s']";
     public static final String SEAT_PARTNER_OPTION = "//div[@role='radiogroup']//label[.//h1[normalize-space(.)='%s']]";
     public static final String WEB_FORM_CONSENT_CHECK_BOX = "//label[text()='%s']/../preceding-sibling::button[@role='checkbox']";
+    public static final String THANK_YOU_HEADER = "//h1[contains(@class, 'py-6') and text()='Vielen Dank!']";
 }

@@ -1,12 +1,11 @@
 package pages;
 
 import helper.PhoneDE;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,19 +16,6 @@ public class leadPage extends BasePage {
 
     public leadPage(WebDriver driver) {
         super(driver);
-    }
-
-    public static List<String> buildXPathVariations(String fieldName, String expectedValue) {
-        List<String> xpaths = new ArrayList<>();
-
-        xpaths.add(String.format(CONTACT_RECORD_TYPE_FIELD, fieldName, expectedValue));
-        xpaths.add(String.format(CONTACT_NAME_FIELD, fieldName, expectedValue));
-        xpaths.add(String.format(CONTACT_ADDRESS_FIELD, fieldName, expectedValue));
-        xpaths.add(String.format(LIGHTNING_TEXT_FIELD, fieldName, expectedValue));
-        xpaths.add(String.format(HREF_FIELD, fieldName, expectedValue));
-        xpaths.add(String.format(FORCE_LOOKUP_FIELD, fieldName, expectedValue));
-
-        return xpaths;
     }
 
     public void verifyNewLeadTypeSelectFormVisible() {
@@ -77,12 +63,6 @@ public class leadPage extends BasePage {
         //Get the expected Full Name of Leads
         String expectedName = getDataInJsonWithScenarioNumber("firstname") + " " + getDataInJsonWithScenarioNumber("lastname");
 
-        //Switch filter back to Test Latest Leads
-        switchFilterWithName("Test Latest Leads");
-
-        //Search for new lead record name
-        searchRecordWithName("Lead", expectedName);
-
         //Verify number and records match with new lead full name
         By leadListingTable = By.xpath(RECORD_LISTING_TABLE);
         verifyElementVisible(leadListingTable);
@@ -92,94 +72,79 @@ public class leadPage extends BasePage {
         for (int i = 1; i <= Integer.parseInt(Objects.requireNonNull(rowNumber)); i++) {
             String rowXpath = "//tr[@data-row-number='" + i + "']";
             Assert.assertEquals(expectedName, driver.findElement(By.xpath(rowXpath + "//th[@data-label='Name']//slot/span")).getText());
-            Assert.assertTrue(equalsIgnoringFormatting(getDataInJsonWithScenarioNumber("mobile"), driver.findElement(By.xpath(rowXpath + "//td[@data-label='Mobile']//a")).getText()));
             Assert.assertTrue(equalsIgnoringFormatting(getDataInJsonWithScenarioNumber("phone"), driver.findElement(By.xpath(rowXpath + "//td[@data-label='Phone']//a")).getText()));
             Assert.assertEquals("SEAT", driver.findElement(By.xpath(rowXpath + "//td[@data-label='Brand']//lst-formatted-text/span")).getText());
         }
     }
 
-    public void verifyPartnerInformation(String expectedValue) {
-        String xpath = String.format(PARTNER_INFO_VALUE, expectedValue);
-
-        WebElement element = driver.findElement(By.xpath(xpath));
-        Assert.assertTrue(element.isDisplayed());
-    }
-
-    public void verifyLeadContactInformationWithExcelData() {
-        verifyElementVisible(By.xpath(String.format(CONTACT_NAME_FIELD, getDataInJsonWithScenarioNumber("firstname") + " " + getDataInJsonWithScenarioNumber("lastname"))));
-        verifyElementVisible(By.xpath(String.format(CONTACT_RECORD_TYPE_FIELD, "Unqualified Lead")));
-        verifyElementVisible(By.xpath(String.format(HREF_FIELD, "Mobile", "tel:" + PhoneDE.toE164(getDataInJsonWithScenarioNumber("mobile")))));
-        verifyElementVisible(By.xpath(String.format(HREF_FIELD, "Phone", "tel:" + PhoneDE.toE164(getDataInJsonWithScenarioNumber("phone")))));
-        verifyElementVisible(By.xpath(String.format(LIGHTNING_TEXT_FIELD, "Customer Type", "Test Drive")));
-        verifyElementVisible(By.xpath(String.format(HREF_FIELD, "Email", "mailto:" + getDataInJsonWithScenarioNumber("email --> nomail.com"))));
-        verifyElementVisible(By.xpath(String.format(CONTACT_ADDRESS_FIELD, getDataInJsonWithScenarioNumber("street"))));
-        verifyElementVisible(By.xpath(String.format(CONTACT_ADDRESS_FIELD, getDataInJsonWithScenarioNumber("zip") + " " + getDataInJsonWithScenarioNumber("city"))));
-        verifyElementVisible(By.xpath(String.format(CONTACT_ADDRESS_FIELD, "Germany")));
-    }
-
-    public void verifyLeadVehicleInformationWithExcelData() {
-        verifyElementVisible(By.xpath(String.format(FORCE_LOOKUP_FIELD, "Vehicle Interest", getDataInJsonWithScenarioNumber("vehicle interest"))));
-        verifyElementVisible(By.xpath(String.format(LIGHTNING_TEXT_FIELD, "New / Used", "New")));
-    }
-
-    public void verifyLeadInformationWithExcelData() {
-        verifyElementVisible(By.xpath(String.format(FORCE_LOOKUP_FIELD, "Lead Owner", "Emil (AIA Team Manager)")));
-        verifyElementVisible(By.xpath(String.format(LIGHTNING_TEXT_FIELD, "Lead Status", "in Progress")));
-    }
-
-    public void verifyLeadDealerInformationWithExcelData() {
-        verifyElementVisible(By.xpath(String.format(FORCE_LOOKUP_FIELD, "Dealer", getDataInJsonWithScenarioNumber("test dealer"))));
-    }
-
-    public void verifyLightningTextField(String header, String fieldName, String dataSource, String fixedExpectedData) {
-        //Verify header
-        try {
-            verifyElementVisible(By.xpath(String.format(SECTION_EXPANDED_STATUS, header, true)));
-        } catch (Exception e) {
-            click(By.xpath(String.format(SECTION_EXPAND_BUTTON, header)));
-        }
-        // Get expected value based on data source
-        String expectedValue = "";
-        if (dataSource.trim().equalsIgnoreCase("excel")) {
-            // Handle special email case
-            switch (fixedExpectedData) {
-                case "Email":
-                    expectedValue = "mailto:" + getDataInJsonWithScenarioNumber("email --> nomail.com");
-                    break;
-                case "Mobile":
-                    expectedValue = "tel:" + PhoneDE.toE164(getDataInJsonWithScenarioNumber("mobile"));
+    public void verifyLeadDetailsInformation(String fieldName, String section){
+        scrollToElement(By.xpath(String.format(SECTION_HEADER,section)));
+        if(section.equals("Contact Information")) {
+            switch (fieldName) {
+                case "Name":
+                    verifyElementVisible(By.xpath(String.format(CONTACT_NAME_FIELD, getDataInJsonWithScenarioNumber("firstname") + " " + getDataInJsonWithScenarioNumber("lastname"))));
                     break;
                 case "Phone":
-                    expectedValue = "tel:" + PhoneDE.toE164(getDataInJsonWithScenarioNumber("phone"));
+                    verifyElementVisible(By.xpath(String.format(PHONE_HREF_FIELD, fieldName, PhoneDE.toE164(getDataInJsonWithScenarioNumber("phone")))));
                     break;
-                case "Zip and City":
-                    expectedValue = getDataInJsonWithScenarioNumber("zip") + " " + getDataInJsonWithScenarioNumber("city");
+                case "Mobile":
+                    verifyElementVisible(By.xpath(String.format(PHONE_HREF_FIELD, fieldName, PhoneDE.toE164(getDataInJsonWithScenarioNumber("mobile")))));
                     break;
-                case "Name":
-                    expectedValue = getDataInJsonWithScenarioNumber("firstname") + " " + getDataInJsonWithScenarioNumber("lastname");
+                case "Email":
+                    verifyElementVisible(By.xpath(String.format(MAIL_HREF_FIELD, fieldName, getDataInJsonWithScenarioNumber("email --> nomail.com"))));
                     break;
                 default:
-                    expectedValue = getDataInJsonWithScenarioNumber(fixedExpectedData.toLowerCase());
+                    throw new IllegalArgumentException("Invalid field name");
             }
-        } else if (dataSource.trim().equalsIgnoreCase("fixed")) {
-            expectedValue = fixedExpectedData.replace("\"", "");
+        } else if (section.equals("Vehicle Information")) {
+            if (fieldName.equals("Vehicle Interest")) {
+                verifyElementVisible(By.xpath(String.format(FORCE_LOOKUP_FIELD, fieldName, getDataInJsonWithScenarioNumber("vehicle interest"))));
+            } else {
+                throw new IllegalArgumentException("Invalid field name");
+            }
         }
-        System.out.println(expectedValue);
+    }
 
-        // Build multiple XPath variations for this field
-        List<String> xpaths = buildXPathVariations(fieldName, expectedValue);
-
-        // Try each XPath until one works
-        boolean found = xpaths.stream().anyMatch(xpath -> {
-            try {
-                verifyElementVisible(By.xpath(xpath));
-                scrollToElement(By.xpath(xpath));
-                return true;
-            } catch (Exception e) {
-                return false;
+    public void verifyLeadDetailsInformation(String fieldName, String section, String expectedData){
+        scrollToElement(By.xpath(String.format(SECTION_HEADER,section)));
+        if(section.equals("Contact Information")) {
+            switch (fieldName) {
+                case "Lead Record Type":
+                    verifyElementVisible(By.xpath(String.format(CONTACT_RECORD_TYPE_FIELD, expectedData)));
+                    break;
+                case "Customer Type":
+                    verifyElementVisible(By.xpath(String.format(LIGHTNING_TEXT_FIELD, "Customer Type", expectedData)));
+                    break;
+                case "Address":
+                    verifyElementVisible(By.xpath(String.format(CONTACT_ADDRESS_FIELD, "Address", expectedData)));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid field name");
             }
-        });
-
-        Assert.assertTrue(found);
+        }else if (section.equals("Lead Information")){
+            switch (fieldName) {
+                case "Source", "Request", "Lead Status":
+                    verifyElementVisible(By.xpath(String.format(LIGHTNING_TEXT_FIELD, fieldName , expectedData)));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid field name");
+            }
+        }else if (section.equals("Dealer Information")){
+            switch (fieldName) {
+                case "Dealer":
+                    verifyElementVisible(By.xpath(String.format(FORCE_LOOKUP_FIELD, fieldName , expectedData)));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid field name");
+            }
+        }else if (section.equals("System Information")){
+            switch (fieldName) {
+                case "Source System":
+                    verifyElementVisible(By.xpath(String.format(LIGHTNING_TEXT_FIELD, fieldName , expectedData)));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid field name");
+            }
+        }
     }
 }

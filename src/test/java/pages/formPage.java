@@ -1,6 +1,7 @@
 package pages;
 
 import helper.Helper;
+import helper.PhoneDE;
 import locators.elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,11 +25,13 @@ public class formPage extends BasePage {
 
     // --- Title ---
     public void verifyTestDriveTitle(String title) {
+        waitForPageLoad();
         verifyElementVisible(By.xpath(String.format(elements.WEB_FORM_TITLE, title)));
     }
 
     // --- Vehicle selection ---
     public void selectInterestVehicle(String interestVehicle) {
+        waitForPageLoad();
         click(By.xpath(String.format(elements.INTEREST_VEHICLE_CHECKBOX, interestVehicle)));
     }
 
@@ -57,8 +60,8 @@ public class formPage extends BasePage {
         System.out.println(getDataInJsonWithScenarioNumber(fieldName));
 
         if(fieldName.equals("phone")){
-            String phoneData = getDataInJsonWithScenarioNumber(fieldName).replace(" ","").replaceAll("\\(", "").replaceAll("\\)", "").trim();
-            for (int i = 0; i< phoneData.length(); i++){
+            String phoneData = PhoneDE.toE164(getDataInJsonWithScenarioNumber(fieldName).replace(" ","").replaceAll("\\(", "").replaceAll("\\)", "").trim());
+            for (int i = 2; i< phoneData.length(); i++){
                 Helper.pause(0.5);
                 inputField.sendKeys(String.valueOf(phoneData.charAt(i)));
             }
@@ -107,5 +110,10 @@ public class formPage extends BasePage {
         if (!actualCar.equals(expectedCar)) {
             throw new AssertionError("Expected: " + expectedCar + " but found: " + actualCar);
         }
+    }
+
+    public void verifyThankYouScreen(){
+        waitForPageLoad();
+        verifyElementVisible(By.xpath(elements.THANK_YOU_HEADER));
     }
 }

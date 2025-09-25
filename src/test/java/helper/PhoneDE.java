@@ -41,10 +41,14 @@ public class PhoneDE {
         String cleaned = phoneNumber.replaceAll("\\s+", "");
 
         // Format: +49 9564 3023188
-        if (cleaned.startsWith("+49")) {
+        if (cleaned.startsWith("+49") && cleaned.length()==14) {
             return cleaned.substring(0, 3) + " " +
                     cleaned.substring(3, 7) + " " +
                     cleaned.substring(7);
+        } else if (cleaned.startsWith("+49") && cleaned.length()==13) {
+            return cleaned.substring(0, 3) + " " +
+                    cleaned.substring(3, 6) + " " +
+                    cleaned.substring(6);
         }
         return phoneNumber; // Return original if doesn't match pattern
     }

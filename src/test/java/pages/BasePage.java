@@ -7,13 +7,19 @@ import org.json.JSONObject;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import runner.ConfigReader;
 import runner.Hooks;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 
 import static locators.elements.*;
 
@@ -157,6 +163,7 @@ public abstract class BasePage {
      * @param buttonText Text of the button
      */
     public void clickOnButtonWithText(String buttonText) {
+
         click(By.xpath(String.format(BUTTON_WITH_TEXT, buttonText)));
     }
 
@@ -183,7 +190,7 @@ public abstract class BasePage {
      * Checks if an element is visible.
      *
      * @param locator By locator of the element
-     * assert true if visible, false otherwise
+     *                assert true if visible, false otherwise
      */
     public void verifyElementVisible(By locator) {
         Assert.assertTrue(waitForElementToBeVisible(locator).isDisplayed());
@@ -193,7 +200,7 @@ public abstract class BasePage {
      * Checks if an element is clickable.
      *
      * @param locator By locator of the element
-     * Assert true if clickable, false otherwise
+     *                Assert true if clickable, false otherwise
      */
     public void verifyElementClickable(By locator) {
         Assert.assertTrue(waitForElementToBeClickable(locator).isDisplayed());
@@ -245,10 +252,10 @@ public abstract class BasePage {
      */
     public void scrollToElement(By locator) {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center', behavior: 'auto'});", element);
     }
 
-    public void openNewTab(){
+    public void openNewTab() {
         // Open new tab
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.open();");
@@ -267,6 +274,7 @@ public abstract class BasePage {
     // </editor-fold>
 
     // <editor-fold desc="Saleforce Action">
+
     /**
      * Verifies that the application name is visible and correct.
      *
@@ -289,7 +297,7 @@ public abstract class BasePage {
         Assert.assertEquals(getText(appTitles), tabName);
     }
 
-    public void switchFilterWithName(String filterName){
+    public void switchFilterWithName(String filterName) {
         click(By.xpath(FILTER_LIST));
         click(By.xpath(String.format(FILTER_OPTION_WITH_TEXT, filterName)));
         Helper.pause(3);
@@ -340,51 +348,51 @@ public abstract class BasePage {
         click(By.xpath(String.format(NEW_RECORD_TYPE_SELECT_FORM_BUTTON, button)));
     }
 
-    public void searchRecordWithName(String saleforceObject, String recordName){
+    public void searchRecordWithName(String saleforceObject, String recordName) {
         enterValueToInputField(saleforceObject + "-search-input", recordName);
         pressEnter(saleforceObject + "-search-input");
         Helper.pause(3);
     }
 
-    public void clickOnRecordOnListingTable(String recordName){
-        click(By.xpath(String.format(LISTING_TABLE_RECORD_NAME,recordName)));
+    public void clickOnRecordOnListingTable(String recordName) {
+        click(By.xpath(String.format(LISTING_TABLE_RECORD_NAME, recordName)));
     }
 
-    public void verifyRecordTitle(String recordType,String recordName){
+    public void verifyRecordTitle(String recordType, String recordName) {
         var recordTypeLabel = driver.findElements(By.xpath(RECORD_TITLES_TYPE));
 
-        WebElement visibleRecordTypeLabel= recordTypeLabel.stream()
+        WebElement visibleRecordTypeLabel = recordTypeLabel.stream()
                 .filter(WebElement::isDisplayed)
                 .findFirst()
                 .orElse(null);
 
         if (visibleRecordTypeLabel != null) {
             System.out.println(visibleRecordTypeLabel.getText());
-            Assert.assertEquals(recordType,visibleRecordTypeLabel.getText());
+            Assert.assertEquals(recordType, visibleRecordTypeLabel.getText());
         }
 
         var recordNameLabel = driver.findElements(By.xpath(RECORD_TITLES_NAME));
 
-        WebElement visibleRecordNameLabel= recordNameLabel.stream()
+        WebElement visibleRecordNameLabel = recordNameLabel.stream()
                 .filter(WebElement::isDisplayed)
                 .findFirst()
                 .orElse(null);
 
         if (visibleRecordNameLabel != null) {
             System.out.println(visibleRecordNameLabel.getText());
-            Assert.assertEquals(recordName,visibleRecordNameLabel.getText());
+            Assert.assertEquals(recordName, visibleRecordNameLabel.getText());
         }
     }
 
-    public void verifySecondaryFieldData(String secondaryFieldTitle){
+    public void verifySecondaryFieldData(String secondaryFieldTitle) {
         String jsonFieldName;
-        String elementXpath ="";
+        String elementXpath = "";
 
         switch (secondaryFieldTitle) {
             case "Phone":
                 jsonFieldName = "phone";
                 System.out.println(PhoneDE.toE164(getDataInJsonWithScenarioNumber(jsonFieldName)));
-                if(!Objects.equals(driver.findElement(By.xpath(PHONE_EXPAND_BTN)).getAttribute("aria-expanded"), "true")){
+                if (!Objects.equals(driver.findElement(By.xpath(PHONE_EXPAND_BTN)).getAttribute("aria-expanded"), "true")) {
                     driver.findElement(By.xpath(PHONE_EXPAND_BTN)).click();
                 }
                 elementXpath = String.format(RECORD_HIGHLIGHTED_DETAILS_PHONE, PhoneDE.toE164(getDataInJsonWithScenarioNumber(jsonFieldName)));
@@ -392,7 +400,7 @@ public abstract class BasePage {
             case "Mobile":
                 jsonFieldName = "mobile";
                 System.out.println(PhoneDE.toE164(getDataInJsonWithScenarioNumber(jsonFieldName)));
-                if(!Objects.equals(driver.findElement(By.xpath(PHONE_EXPAND_BTN)).getAttribute("aria-expanded"), "true")){
+                if (!Objects.equals(driver.findElement(By.xpath(PHONE_EXPAND_BTN)).getAttribute("aria-expanded"), "true")) {
                     driver.findElement(By.xpath(PHONE_EXPAND_BTN)).click();
                 }
                 elementXpath = String.format(RECORD_HIGHLIGHTED_DETAILS_MOBILE, PhoneDE.toE164(getDataInJsonWithScenarioNumber(jsonFieldName)));
@@ -413,6 +421,24 @@ public abstract class BasePage {
                 elementXpath = "";
         }
         verifyElementVisible(By.xpath(elementXpath));
+    }
+
+    public void clickOnTabInRecordPage(String tabName) {
+        scrollToElement(By.xpath(String.format(TAB_IN_RECORD_PAGE, tabName)));
+        var tabInRecordPage = driver.findElements(By.xpath(String.format(TAB_IN_RECORD_PAGE, tabName)));
+
+        WebElement visibleRecordNameLabel = tabInRecordPage.stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .orElse(null);
+
+        assert visibleRecordNameLabel != null;
+        visibleRecordNameLabel.click();
+    }
+
+    public void verifyTabSelectedInRecordPage(String tabName) {
+        WebElement activeTab = driver.findElement(By.xpath(String.format(TAB_IN_RECORD_PAGE, tabName)));
+        Assert.assertTrue("Tab" + tabName + "is not selected", Objects.requireNonNull(activeTab.getAttribute("class")).contains("active"));
     }
 
     // </editor-fold>
@@ -437,5 +463,58 @@ public abstract class BasePage {
     public String getDataInJsonWithScenarioNumber(String key) {
         JSONObject dataList = TestContext.getAllData();
         return dataList.getJSONObject(Hooks.scenarioNumberialOrder).getString(key);
+    }
+
+    public void waitForBackendProcessCompletion(){
+        Instant startTime = Instant.now();
+        AtomicReference<Instant> lastRefreshTime = new AtomicReference<>(startTime);
+
+        Wait<WebDriver> fluentWait = new FluentWait<WebDriver>(driver)
+                .withTimeout(Duration.ofMinutes(5))           // Total timeout: 5 minutes
+                .pollingEvery(Duration.ofSeconds(10))         // Check every 10 seconds
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class)
+                .withMessage("Element not found within 5 minutes despite periodic refreshes");
+
+        WebElement element = fluentWait.until(new Function<WebDriver, WebElement>() {
+            @Override
+            public WebElement apply(WebDriver driver) {
+                Instant currentTime = Instant.now();
+                long elapsedSeconds = Duration.between(startTime, currentTime).getSeconds();
+                long timeSinceLastRefresh = Duration.between(lastRefreshTime.get(), currentTime).getSeconds();
+
+                System.out.printf("\uD83D\uDD0D Checking elements... Elapsed: %ds | Since last refresh: %ds%n",
+                        elapsedSeconds, timeSinceLastRefresh);
+
+                // Refresh every minute (60 seconds)
+                if (timeSinceLastRefresh >= 10) {
+                    System.out.println("🔄 Refreshing page - 1 minute elapsed since last refresh");
+                    click(By.xpath("(//lightning-button-icon//button[@title='Refresh'])[1]"));
+                    lastRefreshTime.set(Instant.now());
+
+                    // Wait a bit for page to load after refresh
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+
+                // Check for the target element
+                try {
+                    WebElement targetElement = driver.findElement(By.xpath(String.format(LISTING_TABLE_RECORD_NAME,getDataInJsonWithScenarioNumber("firstname") + " " + getDataInJsonWithScenarioNumber("lastname"))));
+                    if (targetElement.isDisplayed()) {
+                        System.out.println("✅ Target element found and visible!");
+                        return targetElement;
+                    }
+                } catch (NoSuchElementException e) {
+                    // Element not found, continue waiting
+                }
+
+                return null; // Continue waiting
+            }
+        });
+
+        Assert.assertTrue(element.isDisplayed());
     }
 }

@@ -1,5 +1,6 @@
 package step_definition;
 
+import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -69,5 +70,10 @@ public class formSteps {
     @Then("Able to see current car as {string}")
     public void userShouldSeeCurrentCarAs(String expectedCar) {
         formPage.verifyCurrentCar(expectedCar);
+    }
+
+    @Then("Able to see Thank You screen after submit form")
+    public void ableToSeeThankYouScreenAfterSubmitForm() {
+        formPage.verifyThankYouScreen();
     }
 }
