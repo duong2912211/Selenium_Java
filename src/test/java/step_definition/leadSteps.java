@@ -1,7 +1,6 @@
 package step_definition;
 
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -52,5 +51,19 @@ public class leadSteps {
     @Then("Able to see {string} field in {string} section have data is {string}")
     public void ableToSeeFieldInSectionHaveDataIs(String fieldName, String section, String expectedData) {
         leadPage.verifyLeadDetailsInformation(fieldName,section,expectedData);
+    }
+
+    @Then("Able to see consent information in Consent summary board")
+    public void ableToSeeConsentInformationHaveStatus(DataTable consentData) {
+        List<Map<String, String>> consents = consentData.asMaps();
+
+        for (Map<String, String> consent : consents) {
+            System.out.println(consent);
+        }
+    }
+
+    @And("Wait until lead forwarded to dealer")
+    public void waitUntilLeadForwardedToDealer() {
+        leadPage.waitForLeadForwardedToDealer();
     }
 }

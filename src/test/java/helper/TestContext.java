@@ -14,6 +14,14 @@ public class TestContext {
         allData.put(scenarioNumberialOrder, new JSONObject(data));
     }
 
+    // New method to add to existing scenario
+    public static void addKeyToScenario(String scenarioKey, String key, Object value) {
+        if (allData.has(scenarioKey)) {
+            JSONObject scenarioNode = allData.getJSONObject(scenarioKey);
+            scenarioNode.put(key, value);
+        }
+    }
+
     public static JSONObject getAllData() {
         return allData;
     }

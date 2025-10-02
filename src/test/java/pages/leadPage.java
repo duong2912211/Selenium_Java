@@ -1,12 +1,13 @@
 package pages;
 
 import helper.PhoneDE;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 
-import java.util.List;
+import java.time.Duration;
 import java.util.Objects;
 
 import static helper.PhoneDE.equalsIgnoringFormatting;
@@ -77,9 +78,9 @@ public class leadPage extends BasePage {
         }
     }
 
-    public void verifyLeadDetailsInformation(String fieldName, String section){
-        scrollToElement(By.xpath(String.format(SECTION_HEADER,section)));
-        if(section.equals("Contact Information")) {
+    public void verifyLeadDetailsInformation(String fieldName, String section) {
+        scrollToElement(By.xpath(String.format(SECTION_HEADER, section)));
+        if (section.equals("Contact Information")) {
             switch (fieldName) {
                 case "Name":
                     verifyElementVisible(By.xpath(String.format(CONTACT_NAME_FIELD, getDataInJsonWithScenarioNumber("firstname") + " " + getDataInJsonWithScenarioNumber("lastname"))));
@@ -105,9 +106,9 @@ public class leadPage extends BasePage {
         }
     }
 
-    public void verifyLeadDetailsInformation(String fieldName, String section, String expectedData){
-        scrollToElement(By.xpath(String.format(SECTION_HEADER,section)));
-        if(section.equals("Contact Information")) {
+    public void verifyLeadDetailsInformation(String fieldName, String section, String expectedData) {
+        scrollToElement(By.xpath(String.format(SECTION_HEADER, section)));
+        if (section.equals("Contact Information")) {
             switch (fieldName) {
                 case "Lead Record Type":
                     verifyElementVisible(By.xpath(String.format(CONTACT_RECORD_TYPE_FIELD, expectedData)));
@@ -121,30 +122,71 @@ public class leadPage extends BasePage {
                 default:
                     throw new IllegalArgumentException("Invalid field name");
             }
-        }else if (section.equals("Lead Information")){
+        } else if (section.equals("Lead Information")) {
             switch (fieldName) {
                 case "Source", "Request", "Lead Status":
-                    verifyElementVisible(By.xpath(String.format(LIGHTNING_TEXT_FIELD, fieldName , expectedData)));
+                    verifyElementVisible(By.xpath(String.format(LIGHTNING_TEXT_FIELD, fieldName, expectedData)));
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid field name");
             }
-        }else if (section.equals("Dealer Information")){
+        } else if (section.equals("Dealer Information")) {
             switch (fieldName) {
                 case "Dealer":
-                    verifyElementVisible(By.xpath(String.format(FORCE_LOOKUP_FIELD, fieldName , expectedData)));
+                    verifyElementVisible(By.xpath(String.format(FORCE_LOOKUP_FIELD, fieldName, expectedData)));
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid field name");
             }
-        }else if (section.equals("System Information")){
+        } else if (section.equals("System Information")) {
             switch (fieldName) {
                 case "Source System":
-                    verifyElementVisible(By.xpath(String.format(LIGHTNING_TEXT_FIELD, fieldName , expectedData)));
+                    verifyElementVisible(By.xpath(String.format(LIGHTNING_TEXT_FIELD, fieldName, expectedData)));
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid field name");
             }
         }
+    }
+
+    public void waitForLeadForwardedToDealer() {
+        Wait<WebDriver> fluentWait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofMinutes(5))
+                .pollingEvery(Duration.ofSeconds(10))
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class)
+                .withMessage("Element not found within 5 minutes despite periodic refreshes");
+
+        WebElement element = fluentWait.until(driver -> {
+            // First, try to find the element WITHOUT refreshing
+            try {
+                WebElement elem = driver.findElement(
+                        By.xpath("//td[@class='messageCell']//*[normalize-space(text())='Lead is in dealer responsibility and cannot be edited']")
+                );
+                if (elem.isDisplayed()) {
+                    return elem; // Element found! Stop here, no refresh needed
+                }
+            } catch (NoSuchElementException | StaleElementReferenceException e) {
+                // Element not found, continue to refresh
+            }
+
+            // Element not found, so refresh the page
+            driver.navigate().refresh();
+
+            // Wait for page to stabilize after refresh
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+            return null; // Continue waiting
+        });
+
+        Assert.assertTrue(element.isDisplayed());
+    }
+
+    public void verifyConsentStatusInConsentSummaryBoard(String consentName, String status) {
+
     }
 }

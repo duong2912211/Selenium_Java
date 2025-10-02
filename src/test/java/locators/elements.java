@@ -24,6 +24,7 @@ public class elements {
     //---------------------------------------------------TITLE----------------------------------------------------------
     public static final String RECORD_TITLES_TYPE = "//slot[@name='entityLabel']/records-entity-label";
     public static final String RECORD_TITLES_NAME = "//slot[@name='primaryField']/lightning-formatted-name";
+    public static final String PRESENTATION_TAB = "(//li[@role='presentation']//a[@title='%s | %s'])[1]";
 
     //----------------------------------------------HIGHLIGHT DETAILS---------------------------------------------------
     public static final String RECORD_HIGHLIGHTED_DETAILS_VEHICLE = "//p[@title='Vehicle Interest']/..//p[contains(@class, 'fieldComponent')]//span[text()='%s']";
@@ -65,6 +66,11 @@ public class elements {
     public static final String CONTACT_NAME_FIELD = "//span[@class='test-id__field-label'][text()='Name']/../..//lightning-formatted-name[text()='%s']";
     public static final String CONTACT_RECORD_TYPE_FIELD = "//span[@class='test-id__field-label'][text()='Lead Record Type']/../..//span[text()='%s']";
     public static final String CONTACT_ADDRESS_FIELD = "//span[text()='%s']/../..//div[text()='%s']";
+
+    //---------------------------------------------Record consent part--------------------------------------------------
+    public static final String VIEW_ALL_BUTTON = "//span[@class='view-all-label'][text()='View All'][.//span[text()='%s']]";
+    //--------------------------------------------CONSENTS SUMMARY BOARD------------------------------------------------
+
     // </editor-fold>
 
     //Home

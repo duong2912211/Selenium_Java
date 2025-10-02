@@ -6,6 +6,7 @@ Feature: Test Drive Web Form Test
     Given User navigate to Test Drive web form
     Then Able to see that web form title is "Lust auf eine Probefahrt" visible on page
     When Get new lead data from excel file
+    And Wait for 5 seconds
     And User select interested vehicle with excel data
     And User click on button with text "Weiter"
 
@@ -21,8 +22,8 @@ Feature: Test Drive Web Form Test
 
     And User ticks consent checkbox for "E-Mail"
     And User ticks consent checkbox for "Telefon"
-#    And User click on button with text "Absenden"
-#    Then Able to see Thank You screen after submit form
+    And User click on button with text "Absenden"
+    Then Able to see Thank You screen after submit form
 
     And User open new tab
     And User login with account "Emil"
@@ -33,8 +34,8 @@ Feature: Test Drive Web Form Test
     And Wait until new record created on SF
     Then Verify new Leads record created with correct data on Lead listing page
 
-    When User click on record new create with excel data
-    And Wait for 5 seconds
+    When User click on new "Lead" record created with excel data
+    And Wait until lead forwarded to dealer
 
     Then Able to see "Lead" record have correct name with excel data
     When User click on "Details" tab in record overview
@@ -43,7 +44,7 @@ Feature: Test Drive Web Form Test
     Then Able to see "Phone" field in "Contact Information" section have data similar with excel file
     Then Able to see "Email" field in "Contact Information" section have data similar with excel file
     Then Able to see "Address" field in "Contact Information" section have data is "Germany"
-    Then Able to see "Lead Record Type" field in "Contact Information" section have data is "Testdrive Lead"
+    Then Able to see "Lead Record Type" field in "Contact Information" section have data is "Dealer Lead"
     Then Able to see "Customer Type" field in "Contact Information" section have data is "Test Drive"
 
     Then Able to see "Vehicle Interest" field in "Vehicle Information" section have data similar with excel file
@@ -58,3 +59,10 @@ Feature: Test Drive Web Form Test
 
     When User click on "Data Privacy" tab in record overview
     Then Able to see that "Data Privacy" tab is selected in record overview
+
+#    Then Able to see consent information in Consent summary board
+#      | Channel | Status    | Recording Time    | Source | Source System |
+#      | E-Mail  | Requested | 25.09.2025, 15:16 | Web    | CEM           |
+#      | Phone   | Given     | 25.09.2025, 15:16 | Web    | CEM           |
+#
+#    When User click on View All button of "" table

@@ -3,6 +3,7 @@ package pages;
 import helper.Helper;
 import helper.PhoneDE;
 import helper.TestContext;
+import helper.Timer;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.openqa.selenium.*;
@@ -16,12 +17,13 @@ import runner.Hooks;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
 import static locators.elements.*;
+import static runner.Hooks.scenarioNumberialOrder;
 
 public abstract class BasePage {
     protected WebDriver driver;
@@ -163,7 +165,11 @@ public abstract class BasePage {
      * @param buttonText Text of the button
      */
     public void clickOnButtonWithText(String buttonText) {
-
+        if(buttonText.equals("Absenden"))
+        {
+            Timer timer = new Timer();
+            TestContext.addKeyToScenario(scenarioNumberialOrder,"submit time",timer.getCurrentTime());
+        }
         click(By.xpath(String.format(BUTTON_WITH_TEXT, buttonText)));
     }
 
@@ -488,7 +494,7 @@ public abstract class BasePage {
 
                 // Refresh every minute (60 seconds)
                 if (timeSinceLastRefresh >= 10) {
-                    System.out.println("🔄 Refreshing page - 1 minute elapsed since last refresh");
+                    System.out.println("🔄 Refreshing page - 10s elapsed since last refresh");
                     click(By.xpath("(//lightning-button-icon//button[@title='Refresh'])[1]"));
                     lastRefreshTime.set(Instant.now());
 
@@ -516,5 +522,9 @@ public abstract class BasePage {
         });
 
         Assert.assertTrue(element.isDisplayed());
+    }
+
+    public void verifyAndClickOnPresentationTab(String recordName,String recordType){
+        click(By.xpath(String.format(PRESENTATION_TAB,recordName,recordType)));
     }
 }

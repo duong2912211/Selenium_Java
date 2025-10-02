@@ -89,10 +89,11 @@ public class baseSteps {
         ExcelHandler.readExcelFile();
     }
 
-    @When("User click on record new create with excel data")
-    public void userClickOnRecordNewCreateWithExcelData() {
+    @When("User click on new {string} record created with excel data")
+    public void userClickOnRecordNewCreateWithExcelData(String recordType) {
         String recordName = basePage.getDataInJsonWithScenarioNumber("firstname") + " " + basePage.getDataInJsonWithScenarioNumber("lastname");
         basePage.clickOnRecordOnListingTable(recordName);
+        basePage.verifyAndClickOnPresentationTab(basePage.getDataInJsonWithScenarioNumber("firstname") + " " + basePage.getDataInJsonWithScenarioNumber("lastname"),recordType);
     }
 
     @Then("Able to see {string} record have correct name with excel data")
